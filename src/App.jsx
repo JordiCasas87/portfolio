@@ -9,8 +9,33 @@ import './App.css'
 
 function App() {
   const [activeSection, setActiveSection] = useState('hero')
+  const [reducedEffects, setReducedEffects] = useState(false)
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia(
+      '(max-width: 768px), (pointer: coarse), (prefers-reduced-motion: reduce)',
+    )
+
+    const updateReducedEffects = () => {
+      setReducedEffects(mediaQuery.matches)
+    }
+
+    updateReducedEffects()
+    mediaQuery.addEventListener('change', updateReducedEffects)
+
+    return () => {
+      mediaQuery.removeEventListener('change', updateReducedEffects)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (reducedEffects) {
+      const root = document.documentElement
+      root.style.setProperty('--scroll-progress', '0')
+      root.style.setProperty('--scroll-y', '0px')
+      return
+    }
+
     const root = document.documentElement
     const handleScroll = () => {
       const maxScroll = Math.max(document.body.scrollHeight - window.innerHeight, 1)
@@ -25,9 +50,16 @@ function App() {
     return () => {
       window.removeEventListener('scroll', handleScroll)
     }
-  }, [])
+  }, [reducedEffects])
 
   useEffect(() => {
+    if (reducedEffects) {
+      document
+        .querySelectorAll('.scroll-reveal')
+        .forEach((element) => element.classList.add('is-visible'))
+      return
+    }
+
     const revealElements = document.querySelectorAll('.scroll-reveal')
     const revealObserver = new IntersectionObserver(
       (entries) => {
@@ -46,9 +78,14 @@ function App() {
     return () => {
       revealObserver.disconnect()
     }
-  }, [])
+  }, [reducedEffects])
 
   useEffect(() => {
+    if (reducedEffects) {
+      setActiveSection('hero')
+      return
+    }
+
     const sections = document.querySelectorAll('[data-section]')
     const sectionObserver = new IntersectionObserver(
       (entries) => {
@@ -71,10 +108,14 @@ function App() {
     return () => {
       sectionObserver.disconnect()
     }
-  }, [])
+  }, [reducedEffects])
 
   return (
-    <div className="app-shell" data-active-section={activeSection}>
+    <div
+      className="app-shell"
+      data-active-section={activeSection}
+      data-reduced-effects={reducedEffects ? 'true' : 'false'}
+    >
       <div className="page-ambient page-ambient-one" />
       <div className="page-ambient page-ambient-two" />
       <div className="page-ambient page-ambient-three" />
@@ -83,8 +124,8 @@ function App() {
       <main className="app-main">
         <Hero />
         <About />
-        <Projects />
-        <Other />
+        <Projects reducedEffects={reducedEffects} />
+        <Other reducedEffects={reducedEffects} />
         <Contact />
       </main>
     </div>

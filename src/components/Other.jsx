@@ -1,16 +1,20 @@
-export default function Other() {
+export default function Other({ reducedEffects = false }) {
   return (
     <section id="otras-cosas" className="other app-section" data-section="otras-cosas">
-      <video
-        className="other-video-bg"
-        src="/images/fondo%20hexagonal.mp4"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-      />
+      {reducedEffects ? (
+        <div className="other-static-bg" aria-hidden="true" />
+      ) : (
+        <video
+          className="other-video-bg"
+          src="/images/fondo%20hexagonal.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        />
+      )}
       <div className="other-video-overlay" aria-hidden="true" />
       <div className="container">
         <div className="other-intro scroll-reveal">

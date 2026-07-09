@@ -75,7 +75,7 @@ const projects = [
   },
 ];
 
-export default function Projects() {
+export default function Projects({ reducedEffects = false }) {
   const [selectedMedia, setSelectedMedia] = useState(
     Object.fromEntries(projects.map((project) => [project.id, 0])),
   );
@@ -135,15 +135,21 @@ export default function Projects() {
                       <video
                         src={activeMedia.src}
                         poster={activeMedia.poster}
-                        autoPlay
+                        autoPlay={!reducedEffects}
                         loop={!activeMedia.loopUntil}
                         muted
                         playsInline
                         controls
+                        preload={reducedEffects ? 'none' : 'metadata'}
                         onTimeUpdate={(event) => handleVideoLoopLimit(event, activeMedia.loopUntil)}
                       />
                     ) : (
-                      <img src={activeMedia.src} alt={`${project.name} - ${activeMedia.label}`} />
+                      <img
+                        src={activeMedia.src}
+                        alt={`${project.name} - ${activeMedia.label}`}
+                        loading="lazy"
+                        decoding="async"
+                      />
                     )}
                   </div>
                 )}
