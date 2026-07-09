@@ -130,7 +130,7 @@ export default function Projects({ reducedEffects = false, content }) {
                 )}
 
                 {project.media && project.media.length > 1 && (
-                  <div className="project-media-tabs" aria-label={`Galeria de ${project.name}`}>
+                  <div className="project-media-tabs" aria-label={`Galería de ${project.name}`}>
                     {project.media.map((mediaItem, index) => (
                       <button
                         key={`${project.id}-${mediaItem.label}`}

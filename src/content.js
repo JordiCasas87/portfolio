@@ -25,8 +25,8 @@ export const translations = {
       secondarySkillsTitle: 'Architecture, practices, and additional stack',
       cvLabel: 'View Developer CV PDF',
       githubLabel: 'View GitHub',
-      portraitAlt: 'Portrait of Jordi Casas Gonzalez',
-      presentationAlt: 'Jordi Casas Gonzalez giving a presentation',
+      portraitAlt: 'Portrait of Jordi Casas González',
+      presentationAlt: 'Jordi Casas González giving a presentation',
     },
     projects: {
       eyebrow: 'Selected work',
@@ -255,10 +255,10 @@ export const translations = {
       ],
       skillsTitle: 'Tecnologías principales',
       secondarySkillsTitle: 'Arquitectura, prácticas y stack adicional',
-      cvLabel: 'Ver Curriculum Developer PDF',
+      cvLabel: 'Ver currículum developer PDF',
       githubLabel: 'Ver GitHub',
-      portraitAlt: 'Retrato de Jordi Casas Gonzalez',
-      presentationAlt: 'Jordi Casas Gonzalez en una presentacion',
+      portraitAlt: 'Retrato de Jordi Casas González',
+      presentationAlt: 'Jordi Casas González en una presentación',
     },
     projects: {
       eyebrow: 'Selección de proyectos',
@@ -272,28 +272,28 @@ export const translations = {
         {
           id: 'kakebot',
           name: 'KakeBot',
-          category: 'Backend desplegado + integracion con Telegram',
+          category: 'Backend desplegado + integración con Telegram',
           ownership:
             'Proyecto personal de idea original. Concepto, diseño de producto, arquitectura backend, integración con Telegram y despliegue desarrollados íntegramente por mí.',
           description:
             'App de finanzas personales donde la parte clave es vincular de forma segura un usuario web con su cuenta real de Telegram.',
-          backendHighlights: ['Vinculacion Telegram', 'JPA + MySQL', 'Backend desplegado'],
+          backendHighlights: ['Vinculación Telegram', 'JPA + MySQL', 'Backend desplegado'],
           longDescription:
-            'KakeBot esta inspirado en el metodo japones kakebo y busca hacer el registro de gastos mas simple, constante y amigable. La parte mas interesante del proyecto es el flujo de vinculacion entre la aplicacion web y Telegram: el usuario se registra, genera un codigo temporal, lo envia al bot con /link <code> y el backend relaciona su cuenta interna con el externalId real de Telegram para usar despues el bot como canal rapido de entrada de gastos.',
+            'KakeBot está inspirado en el método japonés kakebo y busca hacer el registro de gastos más simple, constante y amigable. La parte más interesante del proyecto es el flujo de vinculación entre la aplicación web y Telegram: el usuario se registra, genera un código temporal, lo envía al bot con /link <code> y el backend relaciona su cuenta interna con el externalId real de Telegram para usar después el bot como canal rápido de entrada de gastos.',
           media: [
-            { type: 'image', src: '/images/pantallazo1.png', label: 'Presentacion' },
+            { type: 'image', src: '/images/pantallazo1.png', label: 'Presentación' },
             { type: 'image', src: '/images/kakebot-dashboard.png', label: 'Uso en ordenador' },
             { type: 'image', src: '/images/pantallazo2.png', label: 'Registro' },
             { type: 'image', src: '/images/pantallazo3.png', label: 'Telegram' },
             { type: 'image', src: '/images/kakebot-login.png', label: 'Acceso' },
-            { type: 'video', src: '/images/kakebot-animacion-sutil.mov', label: 'Animacion sutil', poster: '/images/kakebot-home.png', fit: 'contain' },
-            { type: 'video', src: '/images/pruebas%20dise%C3%B1o%20bot.mp4', label: 'Pruebas diseno bot', poster: '/images/kakebot-home.png', fit: 'contain' },
+            { type: 'video', src: '/images/kakebot-animacion-sutil.mov', label: 'Animación sutil', poster: '/images/kakebot-home.png', fit: 'contain' },
+            { type: 'video', src: '/images/pruebas%20dise%C3%B1o%20bot.mp4', label: 'Pruebas diseño bot', poster: '/images/kakebot-home.png', fit: 'contain' },
           ],
           mediaBackground: '#ffffff',
           highlights: [
-            'Flujo validado de vinculacion temporal entre usuario web y cuenta de Telegram mediante codigo de un solo uso.',
-            'Registro y login de usuarios, perfil de usuario, creacion de gastos, consultas diarias y mensuales, totales por categoria e historico por periodos.',
-            'Bot real desplegado en Render con comandos /start, /help y /link <code>, consumiendo el codigo y guardando el externalId de Telegram en MySQL.',
+            'Flujo validado de vinculación temporal entre usuario web y cuenta de Telegram mediante código de un solo uso.',
+            'Registro y login de usuarios, perfil de usuario, creación de gastos, consultas diarias y mensuales, totales por categoría e histórico por periodos.',
+            'Bot real desplegado en Render con comandos /start, /help y /link <code>, consumiendo el código y guardando el externalId de Telegram en MySQL.',
             'Backend desplegado con Spring Boot 3, Java 21, Spring Data JPA, Swagger/OpenAPI y manejo global de excepciones.',
           ],
           actions: [
@@ -317,20 +317,20 @@ export const translations = {
             'Proyecto personal de idea original. Concepto narrativo, diseño del juego, arquitectura backend, implementación frontend, flujo de autenticación y despliegue desarrollados íntegramente por mí.',
           description:
             'Juego técnico full stack que combina Spring Boot, React, autenticación, rankings y flujo de partida dentro de una narrativa satírica.',
-          backendHighlights: ['JWT + roles', 'Logica de ranking', 'Arquitectura por dominio'],
+          backendHighlights: ['JWT + roles', 'Lógica de ranking', 'Arquitectura por dominio'],
           longDescription:
             'Wolves es un juego de preguntas donde los jugadores se enfrentan a entrevistas técnicas absurdas dirigidas por lobos reclutadores. Detrás de la identidad visual y el tono humorístico, el proyecto reúne backend y frontend dentro de un sistema bastante más complejo: registro y login de jugadores, roles protegidos, autenticación JWT, lógica de ranking, sesiones de entrevista, modo de repaso de preguntas falladas, seguimiento de estadísticas y un frontend en React + Vite que adapta la experiencia según el rol autenticado y conduce todo el flujo del juego.',
           media: [
-            { type: 'image', src: '/images/foto%20wolves/login.png', label: 'Login' },
-            { type: 'image', src: '/images/wolves-cover.png', label: 'Cover' },
+            { type: 'image', src: '/images/foto%20wolves/login.png', label: 'Acceso' },
+            { type: 'image', src: '/images/wolves-cover.png', label: 'Portada' },
             { type: 'image', src: '/images/foto%20wolves/portada.png', label: 'Portada' },
             { type: 'image', src: '/images/foto%20wolves/personaje.png', label: 'Personaje' },
             { type: 'image', src: '/images/foto%20wolves/partida.png', label: 'Partida' },
-            { type: 'image', src: '/images/foto%20wolves/admin.png', label: 'Admin' },
-            { type: 'image', src: '/images/foto%20wolves/admin1.png', label: 'Panel admin' },
+            { type: 'image', src: '/images/foto%20wolves/admin.png', label: 'Administrador' },
+            { type: 'image', src: '/images/foto%20wolves/admin1.png', label: 'Panel de administración' },
             { type: 'image', src: '/images/wolves-final.png', label: 'Final' },
             { type: 'image', src: '/images/estructura%20wolves.png', label: 'Estructura', fit: 'contain' },
-            { type: 'image', src: '/images/wolves-poster.png', label: 'Poster' },
+            { type: 'image', src: '/images/wolves-poster.png', label: 'Póster' },
           ],
           highlights: [
             'Roles de jugador y admin con Spring Security + JWT, incluyendo endpoints protegidos y un frontend que se adapta a la autenticación y al rol.',
@@ -396,7 +396,7 @@ export const translations = {
             { type: 'video', src: '/images/plannerboy-demo.mov', label: 'Demo', poster: '/images/plannerboy-home.png', fit: 'contain', loopUntil: 89 },
             { type: 'image', src: '/images/plannerboy-home.png', label: 'Inicio', fit: 'contain' },
             { type: 'image', src: '/images/game1.png', label: 'Crear tarea', fit: 'contain' },
-            { type: 'image', src: '/images/%20game2.png', label: 'Main menu', fit: 'contain' },
+            { type: 'image', src: '/images/%20game2.png', label: 'Menú principal', fit: 'contain' },
           ],
           mediaBackground: '#8fa06b',
           highlights: [
