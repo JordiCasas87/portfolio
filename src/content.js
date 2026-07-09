@@ -215,7 +215,7 @@ export const translations = {
               alt: 'IT Academy',
             },
             {
-              src: '/images/UPC.png',
+              src: '/images/upc.png',
               alt: 'UPC',
             },
           ],
@@ -447,7 +447,7 @@ export const translations = {
               alt: 'IT Academy',
             },
             {
-              src: '/images/UPC.png',
+              src: '/images/upc.png',
               alt: 'UPC',
             },
           ],
