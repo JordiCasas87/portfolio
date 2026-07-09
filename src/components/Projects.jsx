@@ -9,73 +9,33 @@ function handleVideoLoopLimit(event, loopUntil) {
   void event.currentTarget.play();
 }
 
-const projects = [
-  {
-    id: 'kakebot',
-    name: 'KakeBot',
-    category: 'Finanzas personales',
-    tone: 'rgba(255, 196, 92, 0.16)',
-    toneSoft: 'rgba(255, 116, 88, 0.12)',
-    mediaBackground: '#f7f7f4',
-    description: 'Tu registro de gastos diarios, fácil, rápido y con un toque kawaii',
-    longDescription: 'Una aplicación de gestión de gastos con interfaz amigable integrada con Telegram. Permite registrar gastos rápidamente desde la app o el bot, con categorización automática y resúmenes visuales.',
-    media: [
-      { type: 'video', src: '/images/kakebot-demo.mov', label: 'Demo', poster: '/images/kakebot-home.png', fit: 'contain' },
-      { type: 'image', src: '/images/kakebot-home.png', label: 'Inicio' },
-      { type: 'image', src: '/images/kakebot-dashboard.png', label: 'Dashboard' },
-      { type: 'image', src: '/images/kakebot-login.png', label: 'Login' },
-    ],
-    tech: ['Java', 'Spring Boot', 'Telegram Bot API', 'PostgreSQL', 'Frontend'],
-  },
-  {
-    id: 'planner',
-    name: 'Planner Boy',
-    category: 'CLI + UI experimental',
-    tone: 'rgba(117, 255, 159, 0.14)',
-    toneSoft: 'rgba(89, 205, 255, 0.12)',
-    mediaBackground: '#d8d2b2',
-    description: 'Agenda CLI con mini frontend estilo Game Boy',
-    longDescription: 'Una agenda de línea de comandos con una interfaz estilo Game Boy vintage. Perfecta para quien quiere gestionar su tiempo de forma nostálgica y funcional.',
-    media: [
-      { type: 'video', src: '/images/plannerboy-demo.mov', label: 'Demo', poster: '/images/plannerboy-home.png', fit: 'contain', loopUntil: 89 },
-      { type: 'image', src: '/images/plannerboy-home.png', label: 'Pantalla', fit: 'contain' },
-    ],
-    tech: ['JavaScript', 'CLI', 'Game Boy Styling'],
-  },
-  {
-    id: 'wolves',
-    name: 'Wolves',
-    category: 'Narrativa interactiva',
-    tone: 'rgba(92, 209, 255, 0.15)',
-    toneSoft: 'rgba(133, 115, 255, 0.12)',
-    description: 'A Crazy Interview - Un juego interactivo de reclutamiento',
-    longDescription: 'Un juego interactivo donde eres un lobo entrevistador en una dungeon. Combina lógica de reclutamiento con narrativa y mecánicas de juego. Diseño cyberpunk y atmósfera cautivadora.',
-    media: [
-      { type: 'image', src: '/images/wolves-cover.png', label: 'Cover' },
-      { type: 'image', src: '/images/wolves-final.png', label: 'Final' },
-      { type: 'image', src: '/images/wolves-poster.png', label: 'Poster' },
-    ],
-    tech: ['React', 'Game Logic', 'Cyberpunk Design'],
-  },
-  {
-    id: 'blackjack',
-    name: 'WebFlux Reactivo',
-    category: 'Arquitectura reactiva',
-    tone: 'rgba(186, 145, 255, 0.15)',
-    toneSoft: 'rgba(92, 177, 255, 0.1)',
-    description: 'Blackjack con arquitectura reactiva',
-    longDescription: 'Implementación de un juego de Blackjack usando Spring WebFlux. Demuestra patrones reactivos, manejo de eventos en tiempo real y una arquitectura no bloqueante.',
-    actions: [
-      {
-        href: 'https://github.com/JordiCasas87/S5.01-Spring-Framework-WebFlux',
-        label: 'Ver en GitHub',
-      },
-    ],
-    tech: ['Java', 'Spring WebFlux', 'Reactive Streams', 'APIs Reactivas'],
-  },
-];
+const techIconMap = {
+  'Java': { slug: 'openjdk', color: 'EA2D2E' },
+  'Java 21': { slug: 'openjdk', color: 'EA2D2E' },
+  'Spring Boot 3': { slug: 'springboot', color: '6DB33F' },
+  'Spring Data JPA': { slug: 'spring', color: '6DB33F' },
+  'Spring WebFlux': { slug: 'spring', color: '6DB33F' },
+  'MySQL': { slug: 'mysql', color: '4479A1' },
+  'Swagger / OpenAPI': { slug: 'swagger', color: '85EA2D' },
+  'Telegram Bot API': { slug: 'telegram', color: '26A5E4' },
+  'Render': { slug: 'render', color: '46E3B7' },
+  'JavaScript': { slug: 'javascript', color: 'F7DF1E' },
+  'React': { slug: 'react', color: '61DAFB' },
+  'CLI': { slug: 'gnubash', color: '4EAA25' },
+}
 
-export default function Projects({ reducedEffects = false }) {
+function getTechIcon(tech) {
+  const icon = techIconMap[tech]
+
+  if (!icon) {
+    return null
+  }
+
+  return `https://cdn.simpleicons.org/${icon.slug}/${icon.color}?viewbox=auto`
+}
+
+export default function Projects({ reducedEffects = false, content }) {
+  const projects = content.projects
   const [selectedMedia, setSelectedMedia] = useState(
     Object.fromEntries(projects.map((project) => [project.id, 0])),
   );
@@ -84,24 +44,17 @@ export default function Projects({ reducedEffects = false }) {
     <section id="proyectos" className="projects app-section" data-section="proyectos">
       <div className="container">
         <div className="projects-intro scroll-reveal">
-          <p className="section-eyebrow">Selección de proyectos</p>
+          <p className="section-eyebrow">{content.eyebrow}</p>
           <div className="projects-intro-layout">
             <div className="projects-intro-copy">
-              <h2>Proyectos con foco en producto, rendimiento y experiencia.</h2>
-              <p className="section-lead">
-                Cada proyecto combina arquitectura backend con una capa visual cuidada.
-                La idea no es solo que funcione, sino que se sienta sólido desde el primer vistazo.
-              </p>
+              <h2>{content.title}</h2>
+              <p className="section-lead">{content.lead}</p>
             </div>
             <aside className="projects-quote-card">
               <span className="quote-mark quote-mark-open" aria-hidden="true">“</span>
-              <p className="section-quote">
-                No es suficiente con que construyamos productos que funcionen, que sean
-                comprensibles y utilizables; también deben proporcionar alegría y emoción,
-                placer y diversión
-              </p>
+              <p className="section-quote">{content.quote}</p>
               <div className="quote-footer">
-                <p className="section-quote-author">Donald A. Norman</p>
+                <p className="section-quote-author">{content.quoteAuthor}</p>
                 <span className="quote-mark quote-mark-close" aria-hidden="true">”</span>
               </div>
             </aside>
@@ -176,6 +129,13 @@ export default function Projects({ reducedEffects = false }) {
 
                 <div className="project-content">
                   <p className="project-long-description">{project.longDescription}</p>
+                  {project.highlights && (
+                    <ul className="project-highlights">
+                      {project.highlights.map((highlight) => (
+                        <li key={highlight}>{highlight}</li>
+                      ))}
+                    </ul>
+                  )}
                   {project.actions && (
                     <div className="project-actions">
                       {project.actions.map((action) => (
@@ -194,6 +154,20 @@ export default function Projects({ reducedEffects = false }) {
                   <div className="tech-stack">
                     {project.tech.map((tech) => (
                       <span key={tech} className="tech-tag">
+                        {getTechIcon(tech) ? (
+                          <img
+                            className="tech-icon"
+                            src={getTechIcon(tech)}
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                            aria-hidden="true"
+                          />
+                        ) : (
+                          <span className="tech-icon tech-icon-fallback" aria-hidden="true">
+                            {tech.slice(0, 2).toUpperCase()}
+                          </span>
+                        )}
                         {tech}
                       </span>
                     ))}

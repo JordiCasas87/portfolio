@@ -1,4 +1,4 @@
-export default function Other({ reducedEffects = false }) {
+export default function Other({ reducedEffects = false, content }) {
   return (
     <section id="otras-cosas" className="other app-section" data-section="otras-cosas">
       {reducedEffects ? (
@@ -18,40 +18,30 @@ export default function Other({ reducedEffects = false }) {
       <div className="other-video-overlay" aria-hidden="true" />
       <div className="container">
         <div className="other-intro scroll-reveal">
-          <p className="section-eyebrow">Intereses y perspectiva</p>
-          <h2>Más allá del código</h2>
+          <p className="section-eyebrow">{content.eyebrow}</p>
+          <h2>{content.title}</h2>
         </div>
         
         <div className="other-grid">
           <div className="other-card scroll-reveal" style={{ '--reveal-order': 1 }}>
             <div className="other-header">
-              <h3>Juegos de Unix</h3>
+              <h3>{content.cards[0].title}</h3>
             </div>
-            <p>
-              Explorando clásicos de Unix y aprendiendo cómo se construían sistemas divertidos
-              con recursos limitados. Una lección de creatividad y eficiencia.
-            </p>
+            <p>{content.cards[0].body}</p>
           </div>
           
           <div className="other-card scroll-reveal" style={{ '--reveal-order': 2 }}>
             <div className="other-header">
-              <h3>Aprendizaje Continuo</h3>
+              <h3>{content.cards[1].title}</h3>
             </div>
-            <p>
-              Actualmente explorando nuevas tecnologías y patrones de arquitectura. 
-              La evolución del ingeniero nunca termina.
-            </p>
+            <p>{content.cards[1].body}</p>
           </div>
           
           <div className="other-card scroll-reveal" style={{ '--reveal-order': 3 }}>
             <div className="other-header">
-              <h3>Arquitectura y diseño de software</h3>
+              <h3>{content.cards[2].title}</h3>
             </div>
-            <p>
-              Me interesa cómo se estructuran los sistemas para que sean mantenibles,
-              escalables y fáciles de evolucionar. Por eso profundizo en arquitectura
-              hexagonal, DDD y buenas prácticas de diseño.
-            </p>
+            <p>{content.cards[2].body}</p>
           </div>
         </div>
       </div>

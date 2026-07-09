@@ -5,12 +5,20 @@ import About from './components/About'
 import Projects from './components/Projects'
 import Other from './components/Other'
 import Contact from './components/Contact'
+import { translations } from './content'
 import './App.css'
 
 function App() {
   const [activeSection, setActiveSection] = useState('hero')
   const [reducedEffects, setReducedEffects] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
+  const [language, setLanguage] = useState('en')
+
+  const content = translations[language]
+
+  useEffect(() => {
+    document.documentElement.lang = language
+  }, [language])
 
   useEffect(() => {
     const mobileQuery = window.matchMedia('(max-width: 768px), (pointer: coarse)')
@@ -124,13 +132,18 @@ function App() {
       <div className="page-ambient page-ambient-two" />
       <div className="page-ambient page-ambient-three" />
       <div className="page-grid" />
-      <Navigation activeSection={activeSection} />
+      <Navigation
+        activeSection={activeSection}
+        language={language}
+        setLanguage={setLanguage}
+        content={content.navigation}
+      />
       <main className="app-main">
-        <Hero />
-        <About />
-        <Projects reducedEffects={reducedEffects} />
-        <Other reducedEffects={reducedEffects} />
-        <Contact />
+        <Hero content={content.hero} />
+        <About content={content.about} />
+        <Projects reducedEffects={reducedEffects} content={content.projects} />
+        <Other reducedEffects={reducedEffects} content={content.other} />
+        <Contact content={content.contact} />
       </main>
     </div>
   )
