@@ -24,6 +24,7 @@ export const translations = {
       skillsTitle: 'Core technologies',
       secondarySkillsTitle: 'Architecture, practices, and additional stack',
       cvLabel: 'View Developer CV PDF',
+      githubLabel: 'View GitHub',
       portraitAlt: 'Portrait of Jordi Casas Gonzalez',
       presentationAlt: 'Jordi Casas Gonzalez giving a presentation',
     },
@@ -40,8 +41,11 @@ export const translations = {
           id: 'kakebot',
           name: 'KakeBot',
           category: 'Deployed backend + Telegram integration',
+          ownership:
+            'Original personal project. Concept, product design, backend architecture, Telegram integration, and deployment developed entirely by me.',
           description:
             'A personal finance app where the key feature is securely linking a web user to their real Telegram account.',
+          backendHighlights: ['Telegram linking', 'JPA + MySQL', 'Deployed backend'],
           longDescription:
             'KakeBot is inspired by the Japanese kakebo method and aims to make expense tracking simpler, friendlier, and more consistent. The most interesting part of the project is the linking flow between the web app and Telegram: the user signs up, generates a temporary code, sends it to the bot with /link <code>, and the backend connects the internal user account with the real Telegram externalId so the bot can later be used as a fast expense input channel.',
           media: [
@@ -50,66 +54,132 @@ export const translations = {
             { type: 'image', src: '/images/pantallazo2.png', label: 'Expense entry' },
             { type: 'image', src: '/images/pantallazo3.png', label: 'Telegram' },
             { type: 'image', src: '/images/kakebot-login.png', label: 'Access' },
-            { type: 'video', src: '/images/kakebot-demo.mov', label: 'Bot demo', poster: '/images/kakebot-home.png', fit: 'contain' },
+            { type: 'video', src: '/images/Animacio%CC%81n_Sutil_de_Personaje_Flotante.mov', label: 'Subtle animation', poster: '/images/kakebot-home.png', fit: 'contain' },
+            { type: 'video', src: '/images/pruebas%20dise%C3%B1o%20bot.mp4', label: 'Bot design tests', poster: '/images/kakebot-home.png', fit: 'contain' },
           ],
+          mediaBackground: '#ffffff',
           highlights: [
             'Validated temporary linking flow between a web user and a Telegram account through a one-time code.',
             'User registration and login, user profile endpoints, expense creation, daily and monthly queries, totals by category, and historical totals by period.',
             'Real bot deployed on Render with /start, /help, and /link <code>, consuming the code and storing Telegram externalId in MySQL.',
             'Backend deployed with Spring Boot 3, Java 21, Spring Data JPA, Swagger/OpenAPI, and global exception handling.',
           ],
-          tech: ['Java 21', 'Spring Boot 3', 'Spring Data JPA', 'MySQL', 'Swagger / OpenAPI', 'Telegram Bot API', 'Render'],
-        },
-        {
-          id: 'planner',
-          name: 'Planner Boy',
-          category: 'CLI + experimental UI',
-          description: 'A CLI planner with a tiny Game Boy-inspired frontend.',
-          longDescription:
-            'A command-line planner with a vintage Game Boy-style interface. It is built for anyone who wants to manage time in a nostalgic but still practical way.',
-          media: [
-            { type: 'video', src: '/images/plannerboy-demo.mov', label: 'Demo', poster: '/images/plannerboy-home.png', fit: 'contain', loopUntil: 89 },
-            { type: 'image', src: '/images/plannerboy-home.png', label: 'Home', fit: 'contain' },
-            { type: 'image', src: '/images/game1.png', label: 'Create task', fit: 'contain' },
-            { type: 'image', src: '/images/%20game2.png', label: 'Main menu', fit: 'contain' },
+          actions: [
+            {
+              href: 'https://kakebot.onrender.com',
+              label: 'Open project',
+              emphasis: 'primary',
+            },
+            {
+              href: 'https://github.com/JordiCasas87/Kakebot',
+              label: 'View on GitHub',
+            },
           ],
-          tech: ['JavaScript', 'CLI', 'Game Boy Styling'],
+          tech: ['Java 21', 'Spring Boot 3', 'Spring Data JPA', 'MySQL', 'Swagger / OpenAPI', 'Telegram Bot API', 'Render'],
         },
         {
           id: 'wolves',
           name: 'Wolves',
-          category: 'Interactive narrative',
-          description: 'A Crazy Interview, an interactive recruitment game.',
+          category: 'Full stack game + satirical interview simulator',
+          ownership:
+            'Original personal project. Narrative concept, game design, backend architecture, frontend implementation, authentication flow, and deployment developed entirely by me.',
+          description:
+            'A full stack technical interview game that combines Spring Boot, React, authentication, rankings, and game flow inside a satirical narrative.',
+          backendHighlights: ['JWT + roles', 'Ranking logic', 'Domain-based architecture'],
           longDescription:
-            'An interactive game where you play as a wolf interviewer inside a dungeon. It combines recruitment logic with narrative and game mechanics, wrapped in a cyberpunk atmosphere.',
+            'Wolves is a quiz-based game where players face absurd technical interviews conducted by recruiter wolves. Behind the visual identity and humor, the project brings together backend and frontend concerns in a more complex system: player registration and login, protected roles, JWT authentication, ranking logic, interview sessions, failed-question review mode, statistics tracking, and a React + Vite frontend that adapts to the authenticated role and drives the full game experience.',
           media: [
+            { type: 'image', src: '/images/foto%20wolves/login.png', label: 'Login' },
             { type: 'image', src: '/images/wolves-cover.png', label: 'Cover' },
+            { type: 'image', src: '/images/foto%20wolves/portada.png', label: 'Home' },
+            { type: 'image', src: '/images/foto%20wolves/personaje.png', label: 'Avatar' },
+            { type: 'image', src: '/images/foto%20wolves/partida.png', label: 'Match' },
+            { type: 'image', src: '/images/foto%20wolves/admin.png', label: 'Admin' },
+            { type: 'image', src: '/images/foto%20wolves/admin1.png', label: 'Admin panel' },
             { type: 'image', src: '/images/wolves-final.png', label: 'Final' },
             { type: 'image', src: '/images/estructura%20wolves.png', label: 'Structure', fit: 'contain' },
             { type: 'image', src: '/images/wolves-poster.png', label: 'Poster' },
+          ],
+          highlights: [
+            'Player and admin roles with Spring Security + JWT, including protected endpoints and frontend behavior that adapts to authentication and role.',
+            'Interview sessions with random technical questions, scoring, pass/fail results, fictional salaries, failed-question history, and dedicated review mode.',
+            'Global ranking based on accumulated fictional salary, plus player statistics such as games played, games passed, and total earnings.',
+            'Domain-based backend architecture inspired by DDD, with controllers, services, repositories, DTOs, mappers, models, and a separate React + Vite frontend for flow, transitions, and API communication.',
           ],
           actions: [
             {
               href: 'https://wolves-game-front.onrender.com',
               label: 'Open project',
+              emphasis: 'primary',
+            },
+            {
+              href: 'https://github.com/JordiCasas87/WOLVES-GAME-',
+              label: 'View on GitHub',
             },
           ],
-          tech: ['React', 'Game Logic', 'Cyberpunk Design'],
+          tech: ['Java 21', 'Spring Boot 3', 'Spring Security', 'JWT', 'MongoDB', 'Swagger / OpenAPI', 'React', 'Vite', 'JavaScript', 'CSS'],
         },
         {
           id: 'blackjack',
-          name: 'Reactive WebFlux',
-          category: 'Reactive architecture',
-          description: 'Blackjack built with reactive architecture.',
+          name: 'Blackjack API',
+          category: 'Reactive API + dual persistence',
+          ownership:
+            'Original personal project. API design, reactive backend, persistence model, Docker orchestration, and technical documentation developed entirely by me.',
+          description:
+            'A reactive Blackjack API built with Spring WebFlux, using split persistence to store gameplay in MongoDB and ranking data in MySQL.',
+          backendHighlights: ['Reactive flow', 'Dual persistence', 'Docker orchestration'],
           longDescription:
-            'A Blackjack implementation built with Spring WebFlux. It showcases reactive patterns, real-time event handling, and a non-blocking architecture.',
+            'This project is more than a simple game API: it was built to explore a reactive backend model with Spring WebFlux and to separate persistence responsibilities by use case. Game sessions and player state live in MongoDB, while ranking data is stored independently in MySQL through R2DBC, making the application a good exercise in choosing the right persistence layer for each domain concern. The full environment is orchestrated with Docker Compose so the API, MongoDB, and MySQL boot together reproducibly without requiring a local Java, Maven, or database setup.',
+          media: [
+            { type: 'image', src: '/images/swagger%20black.png', label: 'Swagger 1', fit: 'contain' },
+            { type: 'image', src: '/images/swagger%20black2.png', label: 'Swagger 2', fit: 'contain' },
+          ],
+          mediaBackground: '#ffffff',
+          highlights: [
+            'Reactive backend implemented with Spring WebFlux, Spring Data Reactive MongoDB, and Spring Data R2DBC instead of a classic blocking MVC stack.',
+            'Split persistence model designed by responsibility: MongoDB for players and matches, MySQL for ranking and leaderboard-oriented data.',
+            'Docker Compose orchestration that boots the API together with both databases, making the whole environment portable and reproducible.',
+            'Swagger / OpenAPI included for direct endpoint testing and faster verification of the reactive flows.',
+          ],
           actions: [
             {
               href: 'https://github.com/JordiCasas87/S5.01-Spring-Framework-WebFlux',
               label: 'View on GitHub',
             },
           ],
-          tech: ['Java', 'Spring WebFlux', 'Reactive Streams', 'Reactive APIs'],
+          tech: ['Java 21', 'Spring Boot 3', 'Spring WebFlux', 'Spring Data Reactive MongoDB', 'Spring Data R2DBC', 'MongoDB', 'MySQL', 'Docker Compose', 'Swagger / OpenAPI'],
+        },
+        {
+          id: 'planner',
+          name: 'Planner Boy',
+          category: 'Java CLI + SQL persistence',
+          ownership:
+            'Game Boy-inspired interface and visual direction developed entirely by me. The backend was built as a team project by three people, and I focused especially on the frontend presentation, product concept, and overall user-facing experience.',
+          description:
+            'A Java 21 command-line agenda that combines task, event, and note management with SQL persistence, layered architecture, and a Game Boy-inspired interface.',
+          backendHighlights: ['Layered architecture', 'SQL persistence', 'Dockerized database'],
+          longDescription:
+            'Planner Boy started as a final team project and was designed as much around backend structure as around the visual identity. It is a Java 21 CLI agenda for managing tasks, events, and notes, with SQL persistence, feature-based organization, layered architecture, Dockerized database execution, and JUnit 5 testing. The Game Boy-inspired UI gives the project personality, but the real value is in how the application separates responsibilities and supports maintainable growth.',
+          media: [
+            { type: 'video', src: '/images/plannerboy-demo.mov', label: 'Demo', poster: '/images/plannerboy-home.png', fit: 'contain', loopUntil: 89 },
+            { type: 'image', src: '/images/plannerboy-home.png', label: 'Home', fit: 'contain' },
+            { type: 'image', src: '/images/game1.png', label: 'Create task', fit: 'contain' },
+            { type: 'image', src: '/images/%20game2.png', label: 'Main menu', fit: 'contain' },
+          ],
+          mediaBackground: '#8fa06b',
+          highlights: [
+            'CRUD flows for tasks, events, and notes, including completed/pending task views, upcoming events, and persistent data storage in SQL.',
+            'Layered architecture plus feature-based organization, with DTOs, mappers, DAO pattern, repository factories, and custom exception handling.',
+            'Dockerized PostgreSQL database with automatic initialization scripts for schema creation and sample data loading.',
+            'Built with Java 21, Maven, and JUnit 5, keeping the CLI menus separate from business logic and persistence concerns.',
+          ],
+          actions: [
+            {
+              href: 'https://github.com/JordiCasas87/DEVELOPERS-TEAM-Cli-agenda-java',
+              label: 'View on GitHub',
+            },
+          ],
+          tech: ['Java 21', 'Maven', 'SQL', 'PostgreSQL', 'Docker', 'JUnit 5', 'CLI'],
         },
       ],
     },
@@ -118,23 +188,47 @@ export const translations = {
       title: 'Beyond code',
       cards: [
         {
-          title: 'Unix games',
-          body: 'Exploring Unix classics and learning how playful systems were built with limited resources. A lesson in creativity and efficiency.',
-        },
-        {
-          title: 'Continuous learning',
-          body: 'Currently exploring new technologies and architecture patterns. The evolution of an engineer never really stops.',
+          title: 'Ongoing training',
+          body: 'I continue building my skills through learning environments such as Campus 42 Barcelona, while also taking courses in video game creation with Unity to keep exploring logic, systems, and interactive design from another angle.',
+          image: {
+            src: '/images/BARCELONA42.png',
+            alt: 'Campus 42 Barcelona',
+          },
         },
         {
           title: 'Software architecture and design',
-          body: 'I am interested in how systems are structured so they stay maintainable, scalable, and easy to evolve. That is why I keep going deeper into hexagonal architecture, DDD, and sound design practices.',
+          paragraphs: [
+            'I am interested in how systems are structured so they stay maintainable, scalable, and easy to evolve. That is why I keep going deeper into hexagonal architecture, DDD, and sound design practices.',
+            'Before focusing fully on software, I studied industrial design and worked in commercial environments, managing teams and traveling to different countries to negotiate sales and business relationships. That background strengthened my communication, responsibility, adaptability, and decision-making under pressure.',
+          ],
+        },
+        {
+          title: 'Completed training',
+          body: 'My learning path also includes completed programs and academic stages that helped shape both my technical foundation and the way I approach problem solving, teamwork, and professional growth.',
+          images: [
+            {
+              src: '/images/BACRELONAACTIVA.png',
+              alt: 'Barcelona Activa',
+            },
+            {
+              src: '/images/ITACADEMY.png',
+              alt: 'IT Academy',
+            },
+            {
+              src: '/images/UPC.png',
+              alt: 'UPC',
+            },
+          ],
         },
       ],
     },
     contact: {
       title: 'Contact',
       body:
-        'If you have an interesting project, a question, or simply want to talk about backend, systems, or technology, I am open to it.',
+        'Open to Back-End Developer opportunities, especially within Java and Spring ecosystems, as well as conversations around backend, architecture, and technology.',
+    },
+    footer: {
+      text: 'This portfolio was created by Jordi Casas using React and Vite.',
     },
   },
   es: {
@@ -162,6 +256,7 @@ export const translations = {
       skillsTitle: 'Tecnologías principales',
       secondarySkillsTitle: 'Arquitectura, prácticas y stack adicional',
       cvLabel: 'Ver Curriculum Developer PDF',
+      githubLabel: 'Ver GitHub',
       portraitAlt: 'Retrato de Jordi Casas Gonzalez',
       presentationAlt: 'Jordi Casas Gonzalez en una presentacion',
     },
@@ -178,8 +273,11 @@ export const translations = {
           id: 'kakebot',
           name: 'KakeBot',
           category: 'Backend desplegado + integracion con Telegram',
+          ownership:
+            'Proyecto personal de idea original. Concepto, diseño de producto, arquitectura backend, integración con Telegram y despliegue desarrollados íntegramente por mí.',
           description:
             'App de finanzas personales donde la parte clave es vincular de forma segura un usuario web con su cuenta real de Telegram.',
+          backendHighlights: ['Vinculacion Telegram', 'JPA + MySQL', 'Backend desplegado'],
           longDescription:
             'KakeBot esta inspirado en el metodo japones kakebo y busca hacer el registro de gastos mas simple, constante y amigable. La parte mas interesante del proyecto es el flujo de vinculacion entre la aplicacion web y Telegram: el usuario se registra, genera un codigo temporal, lo envia al bot con /link <code> y el backend relaciona su cuenta interna con el externalId real de Telegram para usar despues el bot como canal rapido de entrada de gastos.',
           media: [
@@ -188,66 +286,132 @@ export const translations = {
             { type: 'image', src: '/images/pantallazo2.png', label: 'Registro' },
             { type: 'image', src: '/images/pantallazo3.png', label: 'Telegram' },
             { type: 'image', src: '/images/kakebot-login.png', label: 'Acceso' },
-            { type: 'video', src: '/images/kakebot-demo.mov', label: 'Demo Bot', poster: '/images/kakebot-home.png', fit: 'contain' },
+            { type: 'video', src: '/images/Animacio%CC%81n_Sutil_de_Personaje_Flotante.mov', label: 'Animacion sutil', poster: '/images/kakebot-home.png', fit: 'contain' },
+            { type: 'video', src: '/images/pruebas%20dise%C3%B1o%20bot.mp4', label: 'Pruebas diseno bot', poster: '/images/kakebot-home.png', fit: 'contain' },
           ],
+          mediaBackground: '#ffffff',
           highlights: [
             'Flujo validado de vinculacion temporal entre usuario web y cuenta de Telegram mediante codigo de un solo uso.',
             'Registro y login de usuarios, perfil de usuario, creacion de gastos, consultas diarias y mensuales, totales por categoria e historico por periodos.',
             'Bot real desplegado en Render con comandos /start, /help y /link <code>, consumiendo el codigo y guardando el externalId de Telegram en MySQL.',
             'Backend desplegado con Spring Boot 3, Java 21, Spring Data JPA, Swagger/OpenAPI y manejo global de excepciones.',
           ],
-          tech: ['Java 21', 'Spring Boot 3', 'Spring Data JPA', 'MySQL', 'Swagger / OpenAPI', 'Telegram Bot API', 'Render'],
-        },
-        {
-          id: 'planner',
-          name: 'Planner Boy',
-          category: 'CLI + UI experimental',
-          description: 'Agenda CLI con mini frontend estilo Game Boy',
-          longDescription:
-            'Una agenda de línea de comandos con una interfaz estilo Game Boy vintage. Perfecta para quien quiere gestionar su tiempo de forma nostálgica y funcional.',
-          media: [
-            { type: 'video', src: '/images/plannerboy-demo.mov', label: 'Demo', poster: '/images/plannerboy-home.png', fit: 'contain', loopUntil: 89 },
-            { type: 'image', src: '/images/plannerboy-home.png', label: 'Inicio', fit: 'contain' },
-            { type: 'image', src: '/images/game1.png', label: 'Crear tarea', fit: 'contain' },
-            { type: 'image', src: '/images/%20game2.png', label: 'Main menu', fit: 'contain' },
+          actions: [
+            {
+              href: 'https://kakebot.onrender.com',
+              label: 'Abrir proyecto',
+              emphasis: 'primary',
+            },
+            {
+              href: 'https://github.com/JordiCasas87/Kakebot',
+              label: 'Ver en GitHub',
+            },
           ],
-          tech: ['JavaScript', 'CLI', 'Game Boy Styling'],
+          tech: ['Java 21', 'Spring Boot 3', 'Spring Data JPA', 'MySQL', 'Swagger / OpenAPI', 'Telegram Bot API', 'Render'],
         },
         {
           id: 'wolves',
           name: 'Wolves',
-          category: 'Narrativa interactiva',
-          description: 'A Crazy Interview - Un juego interactivo de reclutamiento',
+          category: 'Juego full stack + simulador satírico de entrevistas',
+          ownership:
+            'Proyecto personal de idea original. Concepto narrativo, diseño del juego, arquitectura backend, implementación frontend, flujo de autenticación y despliegue desarrollados íntegramente por mí.',
+          description:
+            'Juego técnico full stack que combina Spring Boot, React, autenticación, rankings y flujo de partida dentro de una narrativa satírica.',
+          backendHighlights: ['JWT + roles', 'Logica de ranking', 'Arquitectura por dominio'],
           longDescription:
-            'Un juego interactivo donde eres un lobo entrevistador en una dungeon. Combina lógica de reclutamiento con narrativa y mecánicas de juego. Diseño cyberpunk y atmósfera cautivadora.',
+            'Wolves es un juego de preguntas donde los jugadores se enfrentan a entrevistas técnicas absurdas dirigidas por lobos reclutadores. Detrás de la identidad visual y el tono humorístico, el proyecto reúne backend y frontend dentro de un sistema bastante más complejo: registro y login de jugadores, roles protegidos, autenticación JWT, lógica de ranking, sesiones de entrevista, modo de repaso de preguntas falladas, seguimiento de estadísticas y un frontend en React + Vite que adapta la experiencia según el rol autenticado y conduce todo el flujo del juego.',
           media: [
+            { type: 'image', src: '/images/foto%20wolves/login.png', label: 'Login' },
             { type: 'image', src: '/images/wolves-cover.png', label: 'Cover' },
+            { type: 'image', src: '/images/foto%20wolves/portada.png', label: 'Portada' },
+            { type: 'image', src: '/images/foto%20wolves/personaje.png', label: 'Personaje' },
+            { type: 'image', src: '/images/foto%20wolves/partida.png', label: 'Partida' },
+            { type: 'image', src: '/images/foto%20wolves/admin.png', label: 'Admin' },
+            { type: 'image', src: '/images/foto%20wolves/admin1.png', label: 'Panel admin' },
             { type: 'image', src: '/images/wolves-final.png', label: 'Final' },
             { type: 'image', src: '/images/estructura%20wolves.png', label: 'Estructura', fit: 'contain' },
             { type: 'image', src: '/images/wolves-poster.png', label: 'Poster' },
+          ],
+          highlights: [
+            'Roles de jugador y admin con Spring Security + JWT, incluyendo endpoints protegidos y un frontend que se adapta a la autenticación y al rol.',
+            'Sesiones de entrevista con preguntas técnicas aleatorias, puntuación, resultado final, salarios ficticios, historial de errores y modo de repaso.',
+            'Ranking global basado en salario ficticio acumulado, además de estadísticas de jugador como partidas jugadas, entrevistas superadas y ganancias totales.',
+            'Arquitectura backend organizada por dominio e inspirada en DDD, con controllers, services, repositories, DTOs, mappers y models, junto a un frontend separado en React + Vite para flujo, transiciones y comunicación con la API.',
           ],
           actions: [
             {
               href: 'https://wolves-game-front.onrender.com',
               label: 'Abrir proyecto',
+              emphasis: 'primary',
+            },
+            {
+              href: 'https://github.com/JordiCasas87/WOLVES-GAME-',
+              label: 'Ver en GitHub',
             },
           ],
-          tech: ['React', 'Game Logic', 'Cyberpunk Design'],
+          tech: ['Java 21', 'Spring Boot 3', 'Spring Security', 'JWT', 'MongoDB', 'Swagger / OpenAPI', 'React', 'Vite', 'JavaScript', 'CSS'],
         },
         {
           id: 'blackjack',
-          name: 'WebFlux Reactivo',
-          category: 'Arquitectura reactiva',
-          description: 'Blackjack con arquitectura reactiva',
+          name: 'Blackjack API',
+          category: 'API reactiva + persistencia dual',
+          ownership:
+            'Proyecto personal de idea original. Diseño de la API, backend reactivo, modelo de persistencia, orquestación con Docker y documentación técnica desarrollados íntegramente por mí.',
+          description:
+            'API reactiva de Blackjack construida con Spring WebFlux, usando persistencia separada para guardar la partida en MongoDB y el ranking en MySQL.',
+          backendHighlights: ['Flujo reactivo', 'Persistencia dual', 'Orquestación Docker'],
           longDescription:
-            'Implementación de un juego de Blackjack usando Spring WebFlux. Demuestra patrones reactivos, manejo de eventos en tiempo real y una arquitectura no bloqueante.',
+            'Este proyecto va más allá de una API sencilla de juego: está planteado para explorar un modelo backend reactivo con Spring WebFlux y para separar las responsabilidades de persistencia según el caso de uso. Las partidas y el estado de jugador viven en MongoDB, mientras que el ranking se guarda de forma independiente en MySQL mediante R2DBC, lo que convierte el proyecto en un buen ejercicio de diseño al elegir la capa de persistencia más adecuada para cada parte del dominio. Todo el entorno se levanta con Docker Compose, haciendo que API, MongoDB y MySQL arranquen juntos de forma reproducible sin necesidad de instalar Java, Maven o bases de datos en local.',
+          media: [
+            { type: 'image', src: '/images/swagger%20black.png', label: 'Swagger 1', fit: 'contain' },
+            { type: 'image', src: '/images/swagger%20black2.png', label: 'Swagger 2', fit: 'contain' },
+          ],
+          mediaBackground: '#ffffff',
+          highlights: [
+            'Backend reactivo implementado con Spring WebFlux, Spring Data Reactive MongoDB y Spring Data R2DBC en lugar de un enfoque clásico bloqueante.',
+            'Modelo de persistencia dual diseñado por responsabilidad: MongoDB para jugadores y partidas, MySQL para el ranking y la información de leaderboard.',
+            'Orquestación con Docker Compose que levanta la API junto a ambas bases de datos, haciendo el entorno portable y reproducible.',
+            'Swagger / OpenAPI incluido para probar endpoints directamente y validar más rápido los flujos reactivos.',
+          ],
           actions: [
             {
               href: 'https://github.com/JordiCasas87/S5.01-Spring-Framework-WebFlux',
               label: 'Ver en GitHub',
             },
           ],
-          tech: ['Java', 'Spring WebFlux', 'Reactive Streams', 'APIs Reactivas'],
+          tech: ['Java 21', 'Spring Boot 3', 'Spring WebFlux', 'Spring Data Reactive MongoDB', 'Spring Data R2DBC', 'MongoDB', 'MySQL', 'Docker Compose', 'Swagger / OpenAPI'],
+        },
+        {
+          id: 'planner',
+          name: 'Planner Boy',
+          category: 'CLI en Java + persistencia SQL',
+          ownership:
+            'La interfaz inspirada en Game Boy y la dirección visual están desarrolladas íntegramente por mí. El backend se realizó como proyecto en equipo entre tres personas, y mi foco estuvo especialmente en la parte frontend, el concepto de producto y la experiencia visual de cara al usuario.',
+          description:
+            'Agenda por consola en Java 21 que combina gestión de tareas, eventos y notas con persistencia SQL, arquitectura en capas y una interfaz inspirada en Game Boy.',
+          backendHighlights: ['Arquitectura en capas', 'Persistencia SQL', 'Base de datos con Docker'],
+          longDescription:
+            'Planner Boy nació como trabajo final en equipo y se planteó tanto desde la estructura backend como desde la identidad visual. Es una agenda CLI en Java 21 para gestionar tareas, eventos y notas, con persistencia en SQL, organización por features, arquitectura en capas, ejecución de base de datos con Docker y testing con JUnit 5. La interfaz inspirada en Game Boy le da personalidad, pero el valor principal está en cómo se separan responsabilidades y se construye una base mantenible para seguir creciendo.',
+          media: [
+            { type: 'video', src: '/images/plannerboy-demo.mov', label: 'Demo', poster: '/images/plannerboy-home.png', fit: 'contain', loopUntil: 89 },
+            { type: 'image', src: '/images/plannerboy-home.png', label: 'Inicio', fit: 'contain' },
+            { type: 'image', src: '/images/game1.png', label: 'Crear tarea', fit: 'contain' },
+            { type: 'image', src: '/images/%20game2.png', label: 'Main menu', fit: 'contain' },
+          ],
+          mediaBackground: '#8fa06b',
+          highlights: [
+            'Flujos CRUD para tareas, eventos y notas, incluyendo vistas de tareas pendientes/completadas, próximos eventos y persistencia real en SQL.',
+            'Arquitectura en capas y organización por features, con DTOs, mappers, patrón DAO, factorías de repositorios y manejo de excepciones personalizado.',
+            'Base de datos PostgreSQL en Docker con scripts automáticos de inicialización para crear esquema y cargar datos de ejemplo.',
+            'Desarrollado con Java 21, Maven y JUnit 5, manteniendo los menús CLI separados de la lógica de negocio y de la persistencia.',
+          ],
+          actions: [
+            {
+              href: 'https://github.com/JordiCasas87/DEVELOPERS-TEAM-Cli-agenda-java',
+              label: 'Ver en GitHub',
+            },
+          ],
+          tech: ['Java 21', 'Maven', 'SQL', 'PostgreSQL', 'Docker', 'JUnit 5', 'CLI'],
         },
       ],
     },
@@ -256,23 +420,47 @@ export const translations = {
       title: 'Más allá del código',
       cards: [
         {
-          title: 'Juegos de Unix',
-          body: 'Explorando clásicos de Unix y aprendiendo cómo se construían sistemas divertidos con recursos limitados. Una lección de creatividad y eficiencia.',
-        },
-        {
-          title: 'Aprendizaje continuo',
-          body: 'Actualmente explorando nuevas tecnologías y patrones de arquitectura. La evolución del ingeniero nunca termina.',
+          title: 'Formación continua',
+          body: 'Sigo formándome en entornos como Campus 42 Barcelona y realizando cursos sobre creación de videojuegos con Unity, explorando también la lógica, los sistemas y el diseño interactivo desde otra perspectiva.',
+          image: {
+            src: '/images/BARCELONA42.png',
+            alt: 'Campus 42 Barcelona',
+          },
         },
         {
           title: 'Arquitectura y diseño de software',
-          body: 'Me interesa cómo se estructuran los sistemas para que sean mantenibles, escalables y fáciles de evolucionar. Por eso profundizo en arquitectura hexagonal, DDD y buenas prácticas de diseño.',
+          paragraphs: [
+            'Me interesa cómo se estructuran los sistemas para que sean mantenibles, escalables y fáciles de evolucionar. Por eso profundizo en arquitectura hexagonal, DDD y buenas prácticas de diseño.',
+            'Antes de enfocarme por completo al software, estudié diseño industrial y trabajé en entornos comerciales, gestionando equipos y viajando a distintos países para negociar ventas y relaciones de negocio. Esa etapa reforzó mi comunicación, responsabilidad, capacidad de adaptación y toma de decisiones bajo presión.',
+          ],
+        },
+        {
+          title: 'Formaciones terminadas',
+          body: 'Mi recorrido también incluye programas y etapas formativas ya completadas, que han ayudado a construir una base sólida tanto a nivel técnico como en la forma de afrontar problemas, trabajo en equipo y crecimiento profesional.',
+          images: [
+            {
+              src: '/images/BACRELONAACTIVA.png',
+              alt: 'Barcelona Activa',
+            },
+            {
+              src: '/images/ITACADEMY.png',
+              alt: 'IT Academy',
+            },
+            {
+              src: '/images/UPC.png',
+              alt: 'UPC',
+            },
+          ],
         },
       ],
     },
     contact: {
       title: 'Contacto',
       body:
-        'Si tienes un proyecto interesante, una pregunta o solo quieres conversar sobre backend, sistemas o tecnología, estoy abierto.',
+        'Abierto a oportunidades como Back-End Developer, especialmente en ecosistemas Java y Spring, así como a conversaciones sobre backend, arquitectura y tecnología.',
+    },
+    footer: {
+      text: 'Este portfolio ha sido creado por Jordi Casas usando React y Vite.',
     },
   },
 }

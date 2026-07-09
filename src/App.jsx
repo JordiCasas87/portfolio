@@ -144,6 +144,12 @@ function App() {
         <Projects reducedEffects={reducedEffects} content={content.projects} />
         <Other reducedEffects={reducedEffects} content={content.other} />
         <Contact content={content.contact} />
+        <footer className="site-footer">
+          <div className="container site-footer-content">
+            <p>{content.footer.text}</p>
+            <span>{new Date().getFullYear()}</span>
+          </div>
+        </footer>
       </main>
     </div>
   )

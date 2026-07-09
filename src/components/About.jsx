@@ -86,15 +86,26 @@ export default function About({ content }) {
                 {content.paragraphs.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
-                <a
-                  className="about-cv-link btn btn-secondary scroll-reveal"
-                  style={{ '--reveal-order': 4 }}
-                  href="/cv/JordiCasas_CV20262.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {content.cvLabel}
-                </a>
+                <div className="about-actions">
+                  <a
+                    className="about-cv-link btn btn-secondary scroll-reveal"
+                    style={{ '--reveal-order': 4 }}
+                    href="/cv/JordiCasas_CV20262.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {content.cvLabel}
+                  </a>
+                  <a
+                    className="about-cv-link about-github-link btn btn-secondary scroll-reveal"
+                    style={{ '--reveal-order': 5 }}
+                    href="https://github.com/JordiCasas87"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {content.githubLabel}
+                  </a>
+                </div>
               </div>
 
               <aside className="about-visual about-visual-primary" aria-label={content.portraitAlt}>

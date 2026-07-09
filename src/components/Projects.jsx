@@ -9,6 +9,12 @@ function handleVideoLoopLimit(event, loopUntil) {
   void event.currentTarget.play();
 }
 
+function enforceMutedPlayback(event) {
+  event.currentTarget.muted = true
+  event.currentTarget.defaultMuted = true
+  event.currentTarget.volume = 0
+}
+
 const techIconMap = {
   'Java': { slug: 'openjdk', color: 'EA2D2E' },
   'Java 21': { slug: 'openjdk', color: 'EA2D2E' },
@@ -16,12 +22,24 @@ const techIconMap = {
   'Spring Data JPA': { slug: 'spring', color: '6DB33F' },
   'Spring WebFlux': { slug: 'spring', color: '6DB33F' },
   'MySQL': { slug: 'mysql', color: '4479A1' },
+  'PostgreSQL': { slug: 'postgresql', color: '4169E1' },
   'Swagger / OpenAPI': { slug: 'swagger', color: '85EA2D' },
   'Telegram Bot API': { slug: 'telegram', color: '26A5E4' },
   'Render': { slug: 'render', color: '46E3B7' },
   'JavaScript': { slug: 'javascript', color: 'F7DF1E' },
   'React': { slug: 'react', color: '61DAFB' },
+  'Vite': { slug: 'vite', color: '646CFF' },
+  'MongoDB': { slug: 'mongodb', color: '47A248' },
+  'Spring Security': { slug: 'springsecurity', color: '6DB33F' },
+  'JWT': { slug: 'jsonwebtokens', color: 'FFFFFF' },
+  'CSS': { slug: 'css', color: '1572B6' },
   'CLI': { slug: 'gnubash', color: '4EAA25' },
+  'Maven': { slug: 'apachemaven', color: 'C71A36' },
+  'Docker': { slug: 'docker', color: '2496ED' },
+  'Docker Compose': { slug: 'docker', color: '2496ED' },
+  'JUnit 5': { slug: 'junit5', color: '25A162' },
+  'Spring Data Reactive MongoDB': { slug: 'mongodb', color: '47A248' },
+  'Spring Data R2DBC': { slug: 'spring', color: '6DB33F' },
 }
 
 function getTechIcon(tech) {
@@ -68,7 +86,7 @@ export default function Projects({ reducedEffects = false, content }) {
             return (
               <article
                 key={project.id}
-                className="project-card scroll-reveal"
+                className={`project-card scroll-reveal ${index % 2 === 0 ? 'project-card-from-left' : 'project-card-from-right'}`}
                 style={{
                   '--reveal-order': index + 1,
                   '--project-tone': project.tone,
@@ -91,9 +109,13 @@ export default function Projects({ reducedEffects = false, content }) {
                         autoPlay={!reducedEffects}
                         loop={!activeMedia.loopUntil}
                         muted
+                        defaultMuted
                         playsInline
                         controls
                         preload={reducedEffects ? 'none' : 'metadata'}
+                        onLoadedMetadata={enforceMutedPlayback}
+                        onPlay={enforceMutedPlayback}
+                        onVolumeChange={enforceMutedPlayback}
                         onTimeUpdate={(event) => handleVideoLoopLimit(event, activeMedia.loopUntil)}
                       />
                     ) : (
@@ -128,6 +150,18 @@ export default function Projects({ reducedEffects = false, content }) {
                 )}
 
                 <div className="project-content">
+                  {project.ownership && (
+                    <p className="project-ownership">{project.ownership}</p>
+                  )}
+                  {project.backendHighlights && (
+                    <div className="project-backend-highlights" aria-label="Backend highlights">
+                      {project.backendHighlights.map((highlight) => (
+                        <span key={highlight} className="project-backend-tag">
+                          {highlight}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                   <p className="project-long-description">{project.longDescription}</p>
                   {project.highlights && (
                     <ul className="project-highlights">
@@ -141,7 +175,7 @@ export default function Projects({ reducedEffects = false, content }) {
                       {project.actions.map((action) => (
                         <a
                           key={action.href}
-                          className="project-link"
+                          className={`project-link${action.emphasis === 'primary' ? ' project-link-primary' : ''}`}
                           href={action.href}
                           target="_blank"
                           rel="noopener noreferrer"

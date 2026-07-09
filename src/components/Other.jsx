@@ -23,26 +23,36 @@ export default function Other({ reducedEffects = false, content }) {
         </div>
         
         <div className="other-grid">
-          <div className="other-card scroll-reveal" style={{ '--reveal-order': 1 }}>
-            <div className="other-header">
-              <h3>{content.cards[0].title}</h3>
+          {content.cards.map((card, index) => (
+            <div key={card.title} className="other-card scroll-reveal" style={{ '--reveal-order': index + 1 }}>
+              <div className="other-header">
+                <h3>{card.title}</h3>
+              </div>
+              {card.image && (
+                <div className="other-media">
+                  <img src={card.image.src} alt={card.image.alt} loading="lazy" decoding="async" />
+                </div>
+              )}
+              {card.images && (
+                <div className="other-media-grid">
+                  {card.images.map((image) => (
+                    <div key={image.src} className="other-media other-media-multi">
+                      <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {card.paragraphs ? (
+                <div className="other-copy">
+                  {card.paragraphs.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              ) : (
+                <p>{card.body}</p>
+              )}
             </div>
-            <p>{content.cards[0].body}</p>
-          </div>
-          
-          <div className="other-card scroll-reveal" style={{ '--reveal-order': 2 }}>
-            <div className="other-header">
-              <h3>{content.cards[1].title}</h3>
-            </div>
-            <p>{content.cards[1].body}</p>
-          </div>
-          
-          <div className="other-card scroll-reveal" style={{ '--reveal-order': 3 }}>
-            <div className="other-header">
-              <h3>{content.cards[2].title}</h3>
-            </div>
-            <p>{content.cards[2].body}</p>
-          </div>
+          ))}
         </div>
       </div>
     </section>
