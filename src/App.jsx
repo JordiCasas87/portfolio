@@ -10,21 +10,24 @@ import './App.css'
 function App() {
   const [activeSection, setActiveSection] = useState('hero')
   const [reducedEffects, setReducedEffects] = useState(false)
+  const [reducedMotion, setReducedMotion] = useState(false)
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia(
-      '(max-width: 768px), (pointer: coarse), (prefers-reduced-motion: reduce)',
-    )
+    const mobileQuery = window.matchMedia('(max-width: 768px), (pointer: coarse)')
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
 
     const updateReducedEffects = () => {
-      setReducedEffects(mediaQuery.matches)
+      setReducedEffects(mobileQuery.matches || reducedMotionQuery.matches)
+      setReducedMotion(reducedMotionQuery.matches)
     }
 
     updateReducedEffects()
-    mediaQuery.addEventListener('change', updateReducedEffects)
+    mobileQuery.addEventListener('change', updateReducedEffects)
+    reducedMotionQuery.addEventListener('change', updateReducedEffects)
 
     return () => {
-      mediaQuery.removeEventListener('change', updateReducedEffects)
+      mobileQuery.removeEventListener('change', updateReducedEffects)
+      reducedMotionQuery.removeEventListener('change', updateReducedEffects)
     }
   }, [])
 
@@ -53,7 +56,7 @@ function App() {
   }, [reducedEffects])
 
   useEffect(() => {
-    if (reducedEffects) {
+    if (reducedMotion) {
       document
         .querySelectorAll('.scroll-reveal')
         .forEach((element) => element.classList.add('is-visible'))
@@ -68,8 +71,8 @@ function App() {
         })
       },
       {
-        threshold: 0.18,
-        rootMargin: '0px 0px -12% 0px',
+        threshold: reducedEffects ? 0.08 : 0.18,
+        rootMargin: reducedEffects ? '0px 0px -6% 0px' : '0px 0px -12% 0px',
       },
     )
 
@@ -78,7 +81,7 @@ function App() {
     return () => {
       revealObserver.disconnect()
     }
-  }, [reducedEffects])
+  }, [reducedEffects, reducedMotion])
 
   useEffect(() => {
     if (reducedEffects) {
@@ -115,6 +118,7 @@ function App() {
       className="app-shell"
       data-active-section={activeSection}
       data-reduced-effects={reducedEffects ? 'true' : 'false'}
+      data-reduced-motion={reducedMotion ? 'true' : 'false'}
     >
       <div className="page-ambient page-ambient-one" />
       <div className="page-ambient page-ambient-two" />

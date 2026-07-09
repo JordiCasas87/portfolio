@@ -895,7 +895,6 @@
   opacity: 0;
 }
 
-.app-shell[data-reduced-effects='true'] .scroll-reveal,
 .app-shell[data-reduced-effects='true'] .project-card,
 .app-shell[data-reduced-effects='true'] .other-card,
 .app-shell[data-reduced-effects='true'] .btn,
@@ -907,8 +906,10 @@
   transform: none !important;
 }
 
-.app-shell[data-reduced-effects='true'] .scroll-reveal {
+.app-shell[data-reduced-motion='true'] .scroll-reveal {
   opacity: 1;
+  transition: none !important;
+  transform: none !important;
 }
 
 .app-shell[data-reduced-effects='true'] .navigation,
@@ -960,9 +961,11 @@
   }
 
   .scroll-reveal {
-    opacity: 1;
-    transform: none;
-    transition: none;
+    transform: translateY(18px);
+    transition:
+      opacity 0.45s ease-out,
+      transform 0.45s ease-out;
+    transition-delay: calc(var(--reveal-order, 0) * 45ms);
   }
 
   .page-ambient,
