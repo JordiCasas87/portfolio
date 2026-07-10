@@ -30,14 +30,14 @@ export default function Other({ reducedEffects = false, content }) {
               </div>
               {card.image && (
                 <div className="other-media">
-                  <img src={card.image.src} alt={card.image.alt} loading="lazy" decoding="async" />
+                  <img src={card.image.src} alt={card.image.alt} decoding="async" />
                 </div>
               )}
               {card.images && (
                 <div className="other-media-grid">
                   {card.images.map((image) => (
                     <div key={image.src} className="other-media other-media-multi">
-                      <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+                      <img src={image.src} alt={image.alt} decoding="async" />
                     </div>
                   ))}
                 </div>

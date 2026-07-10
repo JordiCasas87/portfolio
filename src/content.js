@@ -218,7 +218,7 @@ export const translations = {
               alt: 'IT Academy',
             },
             {
-              src: '/images/upc.png',
+              src: '/images/upc-barcelonatech.png',
               alt: 'UPC',
             },
           ],
@@ -453,7 +453,7 @@ export const translations = {
               alt: 'IT Academy',
             },
             {
-              src: '/images/upc.png',
+              src: '/images/upc-barcelonatech.png',
               alt: 'UPC',
             },
           ],
