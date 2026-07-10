@@ -24,7 +24,7 @@ export default function Other({ reducedEffects = false, content }) {
         
         <div className="other-grid">
           {content.cards.map((card, index) => (
-            <div key={card.title} className="other-card scroll-reveal" style={{ '--reveal-order': index + 1 }}>
+            <div key={card.id ?? card.title} className="other-card scroll-reveal" style={{ '--reveal-order': index + 1 }}>
               <div className="other-header">
                 <h3>{card.title}</h3>
               </div>

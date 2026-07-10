@@ -188,6 +188,7 @@ export const translations = {
       title: 'Beyond code',
       cards: [
         {
+          id: 'ongoing-training',
           title: 'Ongoing training',
           body: 'I continue building my skills through learning environments such as Campus 42 Barcelona, while also taking courses in video game creation with Unity to keep exploring logic, systems, and interactive design from another angle.',
           image: {
@@ -196,6 +197,7 @@ export const translations = {
           },
         },
         {
+          id: 'architecture-design',
           title: 'Software architecture and design',
           paragraphs: [
             'I am interested in how systems are structured so they stay maintainable, scalable, and easy to evolve. That is why I keep going deeper into hexagonal architecture, DDD, and sound design practices.',
@@ -203,6 +205,7 @@ export const translations = {
           ],
         },
         {
+          id: 'completed-training',
           title: 'Completed training',
           body: 'My learning path also includes completed programs and academic stages that helped shape both my technical foundation and the way I approach problem solving, teamwork, and professional growth.',
           images: [
@@ -215,7 +218,7 @@ export const translations = {
               alt: 'IT Academy',
             },
             {
-              src: '/images/UPC.png',
+              src: '/images/upc.png',
               alt: 'UPC',
             },
           ],
@@ -420,6 +423,7 @@ export const translations = {
       title: 'Más allá del código',
       cards: [
         {
+          id: 'ongoing-training',
           title: 'Formación continua',
           body: 'Sigo formándome en entornos como Campus 42 Barcelona y realizando cursos sobre creación de videojuegos con Unity, explorando también la lógica, los sistemas y el diseño interactivo desde otra perspectiva.',
           image: {
@@ -428,6 +432,7 @@ export const translations = {
           },
         },
         {
+          id: 'architecture-design',
           title: 'Arquitectura y diseño de software',
           paragraphs: [
             'Me interesa cómo se estructuran los sistemas para que sean mantenibles, escalables y fáciles de evolucionar. Por eso profundizo en arquitectura hexagonal, DDD y buenas prácticas de diseño.',
@@ -435,6 +440,7 @@ export const translations = {
           ],
         },
         {
+          id: 'completed-training',
           title: 'Formaciones terminadas',
           body: 'Mi recorrido también incluye programas y etapas formativas ya completadas, que han ayudado a construir una base sólida tanto a nivel técnico como en la forma de afrontar problemas, trabajo en equipo y crecimiento profesional.',
           images: [
@@ -447,7 +453,7 @@ export const translations = {
               alt: 'IT Academy',
             },
             {
-              src: '/images/UPC.png',
+              src: '/images/upc.png',
               alt: 'UPC',
             },
           ],

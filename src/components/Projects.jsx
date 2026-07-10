@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function handleVideoLoopLimit(event, loopUntil) {
   if (!loopUntil || event.currentTarget.currentTime < loopUntil) {
@@ -52,11 +52,138 @@ function getTechIcon(tech) {
   return `https://cdn.simpleicons.org/${icon.slug}/${icon.color}?viewbox=auto`
 }
 
-export default function Projects({ reducedEffects = false, content }) {
+const AUTO_ROTATING_PROJECTS = new Set(['kakebot', 'wolves', 'blackjack'])
+const AUTO_ROTATE_DELAY_MS = 3000
+const MEDIA_FADE_OUT_MS = 280
+const MEDIA_FADE_IN_MS = 380
+
+function getAutoplayMediaIndexes(project) {
+  return (project.media ?? [])
+    .map((mediaItem, index) => (mediaItem.type === 'image' ? index : null))
+    .filter((index) => index !== null)
+}
+
+function getInitialSelectedMedia(projects) {
+  return Object.fromEntries(projects.map((project) => [project.id, 0]))
+}
+
+export default function Projects({ reducedEffects = false, reducedMotion = false, content }) {
   const projects = content.projects
-  const [selectedMedia, setSelectedMedia] = useState(
-    Object.fromEntries(projects.map((project) => [project.id, 0])),
-  );
+  const allowGalleryMotion = !reducedMotion
+  const [selectedMedia, setSelectedMedia] = useState(() => getInitialSelectedMedia(projects))
+  const [autoplayStoppedByUser, setAutoplayStoppedByUser] = useState({})
+  const [mediaPhase, setMediaPhase] = useState({})
+  const mediaTransitionTimeoutsRef = useRef({})
+
+  const transitionToMedia = (projectId, mediaIndex) => {
+    if (selectedMedia[projectId] === mediaIndex) {
+      return
+    }
+
+    const existingTimeouts = mediaTransitionTimeoutsRef.current[projectId]
+    if (existingTimeouts) {
+      window.clearTimeout(existingTimeouts.fadeOutTimeoutId)
+      window.clearTimeout(existingTimeouts.fadeInTimeoutId)
+    }
+
+    if (!allowGalleryMotion) {
+      setSelectedMedia((current) => ({
+        ...current,
+        [projectId]: mediaIndex,
+      }))
+      setMediaPhase((current) => ({ ...current, [projectId]: 'idle' }))
+      return
+    }
+
+    setMediaPhase((current) => ({ ...current, [projectId]: 'fading-out' }))
+
+    const fadeOutTimeoutId = window.setTimeout(() => {
+      setSelectedMedia((current) => ({
+        ...current,
+        [projectId]: mediaIndex,
+      }))
+      setMediaPhase((current) => ({ ...current, [projectId]: 'fading-in' }))
+
+      const fadeInTimeoutId = window.setTimeout(() => {
+        setMediaPhase((current) => ({ ...current, [projectId]: 'idle' }))
+        delete mediaTransitionTimeoutsRef.current[projectId]
+      }, MEDIA_FADE_IN_MS)
+
+      mediaTransitionTimeoutsRef.current[projectId] = {
+        fadeOutTimeoutId,
+        fadeInTimeoutId,
+      }
+    }, MEDIA_FADE_OUT_MS)
+
+    mediaTransitionTimeoutsRef.current[projectId] = {
+      fadeOutTimeoutId,
+      fadeInTimeoutId: null,
+    }
+  }
+
+  useEffect(() => {
+    return () => {
+      Object.values(mediaTransitionTimeoutsRef.current).forEach((timeouts) => {
+        window.clearTimeout(timeouts.fadeOutTimeoutId)
+        window.clearTimeout(timeouts.fadeInTimeoutId)
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    setSelectedMedia((current) => {
+      const nextState = getInitialSelectedMedia(projects)
+
+      projects.forEach((project) => {
+        if (current[project.id] != null) {
+          nextState[project.id] = current[project.id]
+        }
+      })
+
+      return nextState
+    })
+  }, [projects])
+
+  useEffect(() => {
+    if (!allowGalleryMotion) {
+      return undefined
+    }
+
+    const intervalId = window.setInterval(() => {
+      if (document.hidden) {
+        return
+      }
+
+      projects.forEach((project) => {
+        if (!AUTO_ROTATING_PROJECTS.has(project.id) || autoplayStoppedByUser[project.id]) {
+          return
+        }
+
+        const autoplayIndexes = getAutoplayMediaIndexes(project)
+        if (autoplayIndexes.length < 2) {
+          return
+        }
+
+        const currentIndex = selectedMedia[project.id] ?? autoplayIndexes[0]
+        const currentAutoplayIndex = autoplayIndexes.indexOf(currentIndex)
+        const nextAutoplayIndex =
+          currentAutoplayIndex >= 0
+            ? autoplayIndexes[(currentAutoplayIndex + 1) % autoplayIndexes.length]
+            : autoplayIndexes[0]
+
+        transitionToMedia(project.id, nextAutoplayIndex)
+      })
+    }, AUTO_ROTATE_DELAY_MS)
+
+    return () => {
+      window.clearInterval(intervalId)
+    }
+  }, [allowGalleryMotion, autoplayStoppedByUser, projects, selectedMedia])
+
+  function handleMediaSelection(projectId, mediaIndex) {
+    setAutoplayStoppedByUser((current) => ({ ...current, [projectId]: true }))
+    transitionToMedia(projectId, mediaIndex)
+  }
 
   return (
     <section id="proyectos" className="projects app-section" data-section="proyectos">
@@ -102,30 +229,32 @@ export default function Projects({ reducedEffects = false, content }) {
 
                 {activeMedia && (
                   <div className={`project-image${activeMedia.fit === 'contain' ? ' project-image-contain' : ''}`}>
-                    {activeMedia.type === 'video' ? (
-                      <video
-                        src={activeMedia.src}
-                        poster={activeMedia.poster}
-                        autoPlay={!reducedEffects}
-                        loop={!activeMedia.loopUntil}
-                        muted
-                        defaultMuted
-                        playsInline
-                        controls
-                        preload={reducedEffects ? 'none' : 'metadata'}
-                        onLoadedMetadata={enforceMutedPlayback}
-                        onPlay={enforceMutedPlayback}
-                        onVolumeChange={enforceMutedPlayback}
-                        onTimeUpdate={(event) => handleVideoLoopLimit(event, activeMedia.loopUntil)}
-                      />
-                    ) : (
-                      <img
-                        src={activeMedia.src}
-                        alt={`${project.name} - ${activeMedia.label}`}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    )}
+                    <div className={`project-media-stage project-media-stage-${mediaPhase[project.id] ?? 'idle'}`}>
+                      {activeMedia.type === 'video' ? (
+                        <video
+                          src={activeMedia.src}
+                          poster={activeMedia.poster}
+                          autoPlay={!reducedEffects}
+                          loop={!activeMedia.loopUntil}
+                          muted
+                          defaultMuted
+                          playsInline
+                          controls
+                          preload={reducedEffects ? 'none' : 'metadata'}
+                          onLoadedMetadata={enforceMutedPlayback}
+                          onPlay={enforceMutedPlayback}
+                          onVolumeChange={enforceMutedPlayback}
+                          onTimeUpdate={(event) => handleVideoLoopLimit(event, activeMedia.loopUntil)}
+                        />
+                      ) : (
+                        <img
+                          src={activeMedia.src}
+                          alt={`${project.name} - ${activeMedia.label}`}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
+                    </div>
                   </div>
                 )}
 
@@ -136,12 +265,7 @@ export default function Projects({ reducedEffects = false, content }) {
                         key={`${project.id}-${mediaItem.label}`}
                         type="button"
                         className={`project-media-tab${selectedMedia[project.id] === index ? ' is-active' : ''}`}
-                        onClick={() =>
-                          setSelectedMedia((current) => ({
-                            ...current,
-                            [project.id]: index,
-                          }))
-                        }
+                        onClick={() => handleMediaSelection(project.id, index)}
                       >
                         {mediaItem.label}
                       </button>

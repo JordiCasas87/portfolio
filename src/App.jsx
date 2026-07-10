@@ -141,7 +141,11 @@ function App() {
       <main className="app-main">
         <Hero content={content.hero} />
         <About content={content.about} />
-        <Projects reducedEffects={reducedEffects} content={content.projects} />
+        <Projects
+          reducedEffects={reducedEffects}
+          reducedMotion={reducedMotion}
+          content={content.projects}
+        />
         <Other reducedEffects={reducedEffects} content={content.other} />
         <Contact content={content.contact} />
         <footer className="site-footer">
