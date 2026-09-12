@@ -67,6 +67,36 @@ const AUTO_ROTATING_PROJECTS = new Set(['kakebot', 'wolves', 'blackjack'])
 const AUTO_ROTATE_DELAY_MS = 3000
 const MEDIA_FADE_OUT_MS = 280
 const MEDIA_FADE_IN_MS = 380
+const loadedGalleryImages = new Set()
+const galleryImageLoads = new Map()
+
+function preloadGalleryImage(src) {
+  if (loadedGalleryImages.has(src)) {
+    return Promise.resolve()
+  }
+
+  if (!galleryImageLoads.has(src)) {
+    const loadPromise = new Promise((resolve) => {
+      const image = new Image()
+
+      image.onload = () => {
+        loadedGalleryImages.add(src)
+        galleryImageLoads.delete(src)
+        resolve()
+      }
+      image.onerror = () => {
+        loadedGalleryImages.add(src)
+        galleryImageLoads.delete(src)
+        resolve()
+      }
+      image.src = src
+    })
+
+    galleryImageLoads.set(src, loadPromise)
+  }
+
+  return galleryImageLoads.get(src)
+}
 
 function getAutoplayMediaIndexes(project) {
   return (project.media ?? [])
@@ -86,10 +116,29 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
   const [mediaPhase, setMediaPhase] = useState({})
   const [expandedProjects, setExpandedProjects] = useState({})
   const mediaTransitionTimeoutsRef = useRef({})
+  const requestedMediaRef = useRef({})
 
   const transitionToMedia = (projectId, mediaIndex) => {
+    requestedMediaRef.current[projectId] = mediaIndex
+
     if (selectedMedia[projectId] === mediaIndex) {
       return
+    }
+
+    const project = projects.find((item) => item.id === projectId)
+    const targetMedia = project?.media?.[mediaIndex]
+
+    if (targetMedia?.type === 'image') {
+      const imageSrc = publicAsset(targetMedia.src)
+
+      if (!loadedGalleryImages.has(imageSrc)) {
+        void preloadGalleryImage(imageSrc).then(() => {
+          if (requestedMediaRef.current[projectId] === mediaIndex) {
+            transitionToMedia(projectId, mediaIndex)
+          }
+        })
+        return
+      }
     }
 
     const existingTimeouts = mediaTransitionTimeoutsRef.current[projectId]
@@ -277,8 +326,9 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
                         <img
                           src={publicAsset(activeMedia.src)}
                           alt={`${project.name} - ${activeMedia.label}`}
-                          loading="lazy"
+                          loading="eager"
                           decoding="async"
+                          onLoad={() => loadedGalleryImages.add(publicAsset(activeMedia.src))}
                         />
                       )}
                     </div>
