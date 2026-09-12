@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { publicAsset } from '../publicAsset'
 
 function handleVideoLoopLimit(event, loopUntil) {
@@ -65,38 +65,6 @@ function getTechIcon(tech) {
 
 const AUTO_ROTATING_PROJECTS = new Set(['kakebot', 'wolves', 'blackjack'])
 const AUTO_ROTATE_DELAY_MS = 3000
-const MEDIA_FADE_OUT_MS = 280
-const MEDIA_FADE_IN_MS = 380
-const loadedGalleryImages = new Set()
-const galleryImageLoads = new Map()
-
-function preloadGalleryImage(src) {
-  if (loadedGalleryImages.has(src)) {
-    return Promise.resolve()
-  }
-
-  if (!galleryImageLoads.has(src)) {
-    const loadPromise = new Promise((resolve) => {
-      const image = new Image()
-
-      image.onload = () => {
-        loadedGalleryImages.add(src)
-        galleryImageLoads.delete(src)
-        resolve()
-      }
-      image.onerror = () => {
-        loadedGalleryImages.add(src)
-        galleryImageLoads.delete(src)
-        resolve()
-      }
-      image.src = src
-    })
-
-    galleryImageLoads.set(src, loadPromise)
-  }
-
-  return galleryImageLoads.get(src)
-}
 
 function getAutoplayMediaIndexes(project) {
   return (project.media ?? [])
@@ -113,83 +81,26 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
   const allowGalleryMotion = !reducedMotion
   const [selectedMedia, setSelectedMedia] = useState(() => getInitialSelectedMedia(projects))
   const [autoplayStoppedByUser, setAutoplayStoppedByUser] = useState({})
-  const [mediaPhase, setMediaPhase] = useState({})
   const [expandedProjects, setExpandedProjects] = useState({})
-  const mediaTransitionTimeoutsRef = useRef({})
-  const requestedMediaRef = useRef({})
 
   const transitionToMedia = (projectId, mediaIndex) => {
-    requestedMediaRef.current[projectId] = mediaIndex
-
-    if (selectedMedia[projectId] === mediaIndex) {
-      return
-    }
-
-    const project = projects.find((item) => item.id === projectId)
-    const targetMedia = project?.media?.[mediaIndex]
-
-    if (targetMedia?.type === 'image') {
-      const imageSrc = publicAsset(targetMedia.src)
-
-      if (!loadedGalleryImages.has(imageSrc)) {
-        void preloadGalleryImage(imageSrc).then(() => {
-          if (requestedMediaRef.current[projectId] === mediaIndex) {
-            transitionToMedia(projectId, mediaIndex)
-          }
-        })
-        return
-      }
-    }
-
-    const existingTimeouts = mediaTransitionTimeoutsRef.current[projectId]
-    if (existingTimeouts) {
-      window.clearTimeout(existingTimeouts.fadeOutTimeoutId)
-      window.clearTimeout(existingTimeouts.fadeInTimeoutId)
-    }
-
-    if (!allowGalleryMotion) {
-      setSelectedMedia((current) => ({
-        ...current,
-        [projectId]: mediaIndex,
-      }))
-      setMediaPhase((current) => ({ ...current, [projectId]: 'idle' }))
-      return
-    }
-
-    setMediaPhase((current) => ({ ...current, [projectId]: 'fading-out' }))
-
-    const fadeOutTimeoutId = window.setTimeout(() => {
-      setSelectedMedia((current) => ({
-        ...current,
-        [projectId]: mediaIndex,
-      }))
-      setMediaPhase((current) => ({ ...current, [projectId]: 'fading-in' }))
-
-      const fadeInTimeoutId = window.setTimeout(() => {
-        setMediaPhase((current) => ({ ...current, [projectId]: 'idle' }))
-        delete mediaTransitionTimeoutsRef.current[projectId]
-      }, MEDIA_FADE_IN_MS)
-
-      mediaTransitionTimeoutsRef.current[projectId] = {
-        fadeOutTimeoutId,
-        fadeInTimeoutId,
-      }
-    }, MEDIA_FADE_OUT_MS)
-
-    mediaTransitionTimeoutsRef.current[projectId] = {
-      fadeOutTimeoutId,
-      fadeInTimeoutId: null,
-    }
+    setSelectedMedia((current) => ({ ...current, [projectId]: mediaIndex }))
   }
 
   useEffect(() => {
-    return () => {
-      Object.values(mediaTransitionTimeoutsRef.current).forEach((timeouts) => {
-        window.clearTimeout(timeouts.fadeOutTimeoutId)
-        window.clearTimeout(timeouts.fadeInTimeoutId)
+    projects.forEach((project) => {
+      if (!AUTO_ROTATING_PROJECTS.has(project.id)) {
+        return
+      }
+
+      project.media.forEach((mediaItem) => {
+        if (mediaItem.type === 'image') {
+          const image = new Image()
+          image.src = publicAsset(mediaItem.src)
+        }
       })
-    }
-  }, [])
+    })
+  }, [projects])
 
   useEffect(() => {
     setSelectedMedia((current) => {
@@ -247,7 +158,7 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
   }
 
   function stepThroughMedia(project, direction) {
-    const currentIndex = requestedMediaRef.current[project.id] ?? selectedMedia[project.id] ?? 0
+    const currentIndex = selectedMedia[project.id] ?? 0
     const nextIndex = (currentIndex + direction + project.media.length) % project.media.length
     handleMediaSelection(project.id, nextIndex)
   }
@@ -306,7 +217,7 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
 
                 {activeMedia && (
                   <div className={`project-image project-reveal-layer project-reveal-media${activeMedia.type === 'image' || activeMedia.fit === 'contain' ? ' project-image-contain' : ''}`}>
-                    <div className={`project-media-stage project-media-stage-${mediaPhase[project.id] ?? 'idle'}`}>
+                    <div className="project-media-stage">
                       {activeMedia.type === 'video' ? (
                         <video
                           src={publicAsset(activeMedia.src)}
@@ -328,7 +239,6 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
                           alt={`${project.name} - ${activeMedia.label}`}
                           loading="eager"
                           decoding="async"
-                          onLoad={() => loadedGalleryImages.add(publicAsset(activeMedia.src))}
                         />
                       )}
                     </div>

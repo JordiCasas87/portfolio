@@ -917,15 +917,6 @@
   width: 100%;
   height: 100%;
   opacity: 1;
-  transition: opacity 380ms ease;
-}
-
-.project-media-stage-fading-out {
-  opacity: 0.18;
-}
-
-.project-media-stage-fading-in {
-  opacity: 1;
 }
 
 .project-image img,
