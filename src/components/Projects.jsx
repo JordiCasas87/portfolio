@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { publicAsset } from '../publicAsset'
 
 function handleVideoLoopLimit(event, loopUntil) {
   if (!loopUntil || event.currentTarget.currentTime < loopUntil) {
@@ -259,8 +260,8 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
                     <div className={`project-media-stage project-media-stage-${mediaPhase[project.id] ?? 'idle'}`}>
                       {activeMedia.type === 'video' ? (
                         <video
-                          src={activeMedia.src}
-                          poster={activeMedia.poster}
+                          src={publicAsset(activeMedia.src)}
+                          poster={publicAsset(activeMedia.poster)}
                           autoPlay={!reducedEffects}
                           loop={!activeMedia.loopUntil}
                           muted
@@ -274,7 +275,7 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
                         />
                       ) : (
                         <img
-                          src={activeMedia.src}
+                          src={publicAsset(activeMedia.src)}
                           alt={`${project.name} - ${activeMedia.label}`}
                           loading="lazy"
                           decoding="async"

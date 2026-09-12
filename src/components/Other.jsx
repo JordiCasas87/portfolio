@@ -1,3 +1,5 @@
+import { publicAsset } from '../publicAsset'
+
 export default function Other({ reducedEffects = false, content }) {
   return (
     <section id="otras-cosas" className="other app-section" data-section="otras-cosas">
@@ -6,7 +8,7 @@ export default function Other({ reducedEffects = false, content }) {
       ) : (
         <video
           className="other-video-bg"
-          src="/images/fondo%20hexagonal.mp4"
+          src={publicAsset('/images/fondo%20hexagonal.mp4')}
           autoPlay
           loop
           muted
@@ -30,14 +32,14 @@ export default function Other({ reducedEffects = false, content }) {
               </div>
               {card.image && (
                 <div className="other-media">
-                  <img src={card.image.src} alt={card.image.alt} decoding="async" />
+                  <img src={publicAsset(card.image.src)} alt={card.image.alt} decoding="async" />
                 </div>
               )}
               {card.images && (
                 <div className="other-media-grid">
                   {card.images.map((image) => (
                     <div key={image.src} className="other-media other-media-multi">
-                      <img src={image.src} alt={image.alt} decoding="async" />
+                      <img src={publicAsset(image.src)} alt={image.alt} decoding="async" />
                     </div>
                   ))}
                 </div>

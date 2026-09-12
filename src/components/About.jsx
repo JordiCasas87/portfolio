@@ -1,3 +1,5 @@
+import { publicAsset } from '../publicAsset'
+
 const skillIconMap = {
   'Java 21': { slug: 'openjdk', color: 'EA2D2E' },
   'Spring Boot': { slug: 'springboot', color: '6DB33F' },
@@ -90,7 +92,7 @@ export default function About({ content }) {
                   <a
                     className="about-cv-link btn btn-secondary scroll-reveal"
                     style={{ '--reveal-order': 4 }}
-                    href="/cv/JordiCasas_CV20262.pdf"
+                    href={publicAsset('/cv/JordiCasas_CV20262.pdf')}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -110,7 +112,7 @@ export default function About({ content }) {
 
               <aside className="about-visual about-visual-primary" aria-label={content.portraitAlt}>
                 <figure className="about-photo-card scroll-reveal" style={{ '--reveal-order': 1 }}>
-                  <img src="/images/yo.png" alt={content.portraitAlt} loading="lazy" decoding="async" />
+                  <img src={publicAsset('/images/yo.png')} alt={content.portraitAlt} loading="lazy" decoding="async" />
                 </figure>
               </aside>
             </div>
@@ -153,7 +155,7 @@ export default function About({ content }) {
                 <aside className="about-visual about-visual-secondary" aria-label={content.presentationAlt}>
                   <figure className="about-photo-card about-photo-card-secondary scroll-reveal" style={{ '--reveal-order': 2 }}>
                     <img
-                      src="/images/yopresent.jpeg"
+                      src={publicAsset('/images/yopresent.jpeg')}
                       alt={content.presentationAlt}
                       loading="lazy"
                       decoding="async"

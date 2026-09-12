@@ -1,3 +1,5 @@
+import { publicAsset } from '../publicAsset'
+
 export default function Contact({ content }) {
   const contactItems = [
     {
@@ -6,7 +8,7 @@ export default function Contact({ content }) {
       className: 'contact-link-github',
       icon: (
         <svg viewBox="0 0 19 19" aria-hidden="true" className="contact-icon">
-          <use href="/icons.svg#github-icon" />
+          <use href={`${publicAsset('/icons.svg')}#github-icon`} />
         </svg>
       ),
     },
