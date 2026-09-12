@@ -194,6 +194,7 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
         <div className="projects-grid">
           {projects.map((project, index) => {
             const activeMedia = project.media?.[selectedMedia[project.id] ?? 0];
+            const shouldAutoplayVideo = project.id === 'retrobazar' && !reducedEffects
             const isExpanded = Boolean(expandedProjects[project.id])
             const detailsId = `project-details-${project.id}`
 
@@ -222,12 +223,12 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
                         <video
                           src={publicAsset(activeMedia.src)}
                           poster={publicAsset(activeMedia.poster)}
-                          autoPlay={!reducedEffects}
+                          autoPlay={shouldAutoplayVideo}
                           loop={!activeMedia.loopUntil}
                           muted
                           playsInline
                           controls
-                          preload={reducedEffects ? 'none' : 'metadata'}
+                          preload={shouldAutoplayVideo ? 'metadata' : 'none'}
                           onLoadedMetadata={enforceMutedPlayback}
                           onPlay={enforceMutedPlayback}
                           onVolumeChange={enforceMutedPlayback}
