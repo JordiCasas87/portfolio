@@ -948,6 +948,11 @@
   background: var(--project-media-stage, #0b0c0f);
 }
 
+.project-card:hover .project-image-contain img,
+.project-card:hover .project-image-contain video {
+  transform: scale(1);
+}
+
 .project-media-tabs {
   display: flex;
   flex-wrap: wrap;

@@ -255,7 +255,7 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
                 </div>
 
                 {activeMedia && (
-                  <div className={`project-image project-reveal-layer project-reveal-media${activeMedia.fit === 'contain' ? ' project-image-contain' : ''}`}>
+                  <div className={`project-image project-reveal-layer project-reveal-media${activeMedia.type === 'image' || activeMedia.fit === 'contain' ? ' project-image-contain' : ''}`}>
                     <div className={`project-media-stage project-media-stage-${mediaPhase[project.id] ?? 'idle'}`}>
                       {activeMedia.type === 'video' ? (
                         <video
