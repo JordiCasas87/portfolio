@@ -247,7 +247,7 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
   }
 
   function stepThroughMedia(project, direction) {
-    const currentIndex = selectedMedia[project.id] ?? 0
+    const currentIndex = requestedMediaRef.current[project.id] ?? selectedMedia[project.id] ?? 0
     const nextIndex = (currentIndex + direction + project.media.length) % project.media.length
     handleMediaSelection(project.id, nextIndex)
   }
