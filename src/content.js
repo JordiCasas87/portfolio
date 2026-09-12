@@ -36,7 +36,46 @@ export const translations = {
       quote:
         'It is not enough that we build products that function, that are understandable and usable; we also need to build products that bring joy and excitement, pleasure and fun',
       quoteAuthor: 'Donald A. Norman',
+      showDetails: 'View technical details',
+      hideDetails: 'Hide details',
+      previousMedia: 'Previous media',
+      nextMedia: 'Next media',
+      stackLabel: 'Technology stack',
       projects: [
+        {
+          id: 'retrobazar',
+          name: 'RetroBazar',
+          category: 'Active development · Hexagonal e-commerce + Spring AI',
+          ownership:
+            'Original personal project. Product concept, backend architecture, REST API, frontend, visual identity, and technical evolution developed entirely by me.',
+          description:
+            'An evolving retro e-commerce platform built as a modular monolith, with a functional catalog, hexagonal architecture, and a Spring AI agent currently in development.',
+          backendHighlights: ['Hexagonal architecture', 'Spring AI', 'JPA + MySQL', 'Modular monolith'],
+          longDescription:
+            'RetroBazar combines a responsive Angular storefront with a Spring Boot REST API designed around ports and adapters. Its current MVP already supports product discovery, search, category filters, product detail, and administrative catalog management. The next evolution introduces a Spring AI agent while preserving an independent domain core, followed by user accounts, wish lists, and a dedicated fair-management module for planning event stock, recording on-site sales, and keeping inventory under control.',
+          media: [
+            { type: 'video', src: '/images/RetroBazar/testMvpRetroBazar-linkedin.mp4', label: 'MVP demo', poster: '/images/RetroBazar/portada.png', fit: 'contain' },
+            { type: 'image', src: '/images/RetroBazar/portada.png', label: 'Storefront' },
+            { type: 'image', src: '/images/RetroBazar/catalogo2.png', label: 'Catalog' },
+            { type: 'image', src: '/images/RetroBazar/first%20hexagonal.png', label: 'Architecture', fit: 'contain' },
+            { type: 'image', src: '/images/RetroBazar/capturas-telefono.png', label: 'Responsive', fit: 'contain' },
+          ],
+          mediaBackground: '#111313',
+          highlights: [
+            'Functional catalog with product listing, text search, category filters, product detail, availability, and a responsive Angular interface.',
+            'Administrative REST API for creating, updating, activating, deactivating, and deleting products, with request validation and structured error responses.',
+            'Hexagonal architecture inside a modular monolith: domain rules and use cases remain independent from Spring, web controllers, and JPA persistence adapters.',
+            'Spring AI agent currently in development, with future modules planned for user accounts, wish lists, and fair-specific stock and sales management.',
+          ],
+          actions: [
+            {
+              href: 'https://github.com/JordiCasas87/retrobazar',
+              label: 'View on GitHub',
+              emphasis: 'primary',
+            },
+          ],
+          tech: ['Java 21', 'Spring Boot 4.1', 'Spring AI', 'Spring Data JPA', 'MySQL', 'Angular 20', 'TypeScript', 'Swagger / OpenAPI', 'JUnit 5'],
+        },
         {
           id: 'kakebot',
           name: 'KakeBot',
@@ -271,7 +310,46 @@ export const translations = {
       quote:
         'No es suficiente con que construyamos productos que funcionen, que sean comprensibles y utilizables; también deben proporcionar alegría y emoción, placer y diversión',
       quoteAuthor: 'Donald A. Norman',
+      showDetails: 'Ver detalles técnicos',
+      hideDetails: 'Ocultar detalles',
+      previousMedia: 'Contenido anterior',
+      nextMedia: 'Contenido siguiente',
+      stackLabel: 'Stack tecnológico',
       projects: [
+        {
+          id: 'retrobazar',
+          name: 'RetroBazar',
+          category: 'En desarrollo activo · E-commerce hexagonal + Spring AI',
+          ownership:
+            'Proyecto personal de idea original. Concepto de producto, arquitectura backend, API REST, frontend, identidad visual y evolución técnica desarrollados íntegramente por mí.',
+          description:
+            'Plataforma e-commerce retro en evolución, construida como monolito modular, con un catálogo funcional, arquitectura hexagonal y un agente con Spring AI actualmente en desarrollo.',
+          backendHighlights: ['Arquitectura hexagonal', 'Spring AI', 'JPA + MySQL', 'Monolito modular'],
+          longDescription:
+            'RetroBazar combina una tienda responsive en Angular con una API REST en Spring Boot diseñada mediante puertos y adaptadores. El MVP actual ya permite descubrir, buscar y filtrar productos, consultar su detalle y administrar el catálogo. La siguiente evolución incorpora un agente con Spring AI manteniendo independiente el núcleo de dominio, seguida de cuentas de usuario, listas de deseos y un módulo específico para ferias que permitirá planificar el stock de cada evento, registrar las ventas presenciales y mantener el inventario bajo control.',
+          media: [
+            { type: 'video', src: '/images/RetroBazar/testMvpRetroBazar-linkedin.mp4', label: 'Demo del MVP', poster: '/images/RetroBazar/portada.png', fit: 'contain' },
+            { type: 'image', src: '/images/RetroBazar/portada.png', label: 'Portada' },
+            { type: 'image', src: '/images/RetroBazar/catalogo2.png', label: 'Catálogo' },
+            { type: 'image', src: '/images/RetroBazar/first%20hexagonal.png', label: 'Arquitectura', fit: 'contain' },
+            { type: 'image', src: '/images/RetroBazar/capturas-telefono.png', label: 'Responsive', fit: 'contain' },
+          ],
+          mediaBackground: '#111313',
+          highlights: [
+            'Catálogo funcional con listado, búsqueda por texto, filtros por categoría, detalle, disponibilidad y una interfaz responsive desarrollada en Angular.',
+            'API REST administrativa para crear, actualizar, activar, desactivar y eliminar productos, con validación de peticiones y respuestas de error estructuradas.',
+            'Arquitectura hexagonal dentro de un monolito modular: el dominio y los casos de uso permanecen independientes de Spring, los controladores web y los adaptadores de persistencia JPA.',
+            'Agente con Spring AI actualmente en desarrollo, con futuros módulos de cuentas, favoritos y gestión de stock y ventas específicas para ferias.',
+          ],
+          actions: [
+            {
+              href: 'https://github.com/JordiCasas87/retrobazar',
+              label: 'Ver en GitHub',
+              emphasis: 'primary',
+            },
+          ],
+          tech: ['Java 21', 'Spring Boot 4.1', 'Spring AI', 'Spring Data JPA', 'MySQL', 'Angular 20', 'TypeScript', 'Swagger / OpenAPI', 'JUnit 5'],
+        },
         {
           id: 'kakebot',
           name: 'KakeBot',

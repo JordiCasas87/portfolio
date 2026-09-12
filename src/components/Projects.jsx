@@ -15,10 +15,18 @@ function enforceMutedPlayback(event) {
   event.currentTarget.volume = 0
 }
 
+function updateProjectPointer(event) {
+  const bounds = event.currentTarget.getBoundingClientRect()
+  event.currentTarget.style.setProperty('--pointer-x', `${event.clientX - bounds.left}px`)
+  event.currentTarget.style.setProperty('--pointer-y', `${event.clientY - bounds.top}px`)
+}
+
 const techIconMap = {
   'Java': { slug: 'openjdk', color: 'EA2D2E' },
   'Java 21': { slug: 'openjdk', color: 'EA2D2E' },
   'Spring Boot 3': { slug: 'springboot', color: '6DB33F' },
+  'Spring Boot 4.1': { slug: 'springboot', color: '6DB33F' },
+  'Spring AI': { slug: 'spring', color: '6DB33F' },
   'Spring Data JPA': { slug: 'spring', color: '6DB33F' },
   'Spring WebFlux': { slug: 'spring', color: '6DB33F' },
   'MySQL': { slug: 'mysql', color: '4479A1' },
@@ -27,6 +35,8 @@ const techIconMap = {
   'Telegram Bot API': { slug: 'telegram', color: '26A5E4' },
   'Render': { slug: 'render', color: '46E3B7' },
   'JavaScript': { slug: 'javascript', color: 'F7DF1E' },
+  'TypeScript': { slug: 'typescript', color: '3178C6' },
+  'Angular 20': { slug: 'angular', color: 'DD0031' },
   'React': { slug: 'react', color: '61DAFB' },
   'Vite': { slug: 'vite', color: '646CFF' },
   'MongoDB': { slug: 'mongodb', color: '47A248' },
@@ -73,6 +83,7 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
   const [selectedMedia, setSelectedMedia] = useState(() => getInitialSelectedMedia(projects))
   const [autoplayStoppedByUser, setAutoplayStoppedByUser] = useState({})
   const [mediaPhase, setMediaPhase] = useState({})
+  const [expandedProjects, setExpandedProjects] = useState({})
   const mediaTransitionTimeoutsRef = useRef({})
 
   const transitionToMedia = (projectId, mediaIndex) => {
@@ -185,6 +196,19 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
     transitionToMedia(projectId, mediaIndex)
   }
 
+  function stepThroughMedia(project, direction) {
+    const currentIndex = selectedMedia[project.id] ?? 0
+    const nextIndex = (currentIndex + direction + project.media.length) % project.media.length
+    handleMediaSelection(project.id, nextIndex)
+  }
+
+  function toggleProjectDetails(projectId) {
+    setExpandedProjects((current) => ({
+      ...current,
+      [projectId]: !current[projectId],
+    }))
+  }
+
   return (
     <section id="proyectos" className="projects app-section" data-section="proyectos">
       <div className="container">
@@ -209,6 +233,8 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
         <div className="projects-grid">
           {projects.map((project, index) => {
             const activeMedia = project.media?.[selectedMedia[project.id] ?? 0];
+            const isExpanded = Boolean(expandedProjects[project.id])
+            const detailsId = `project-details-${project.id}`
 
             return (
               <article
@@ -220,15 +246,16 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
                   '--project-tone-soft': project.toneSoft,
                   '--project-media-stage': project.mediaBackground ?? 'rgba(8, 9, 12, 0.88)',
                 }}
+                onPointerMove={reducedEffects ? undefined : updateProjectPointer}
               >
-                <div className="project-header">
+                <div className="project-header project-reveal-layer project-reveal-header">
                   <p className="project-category">{project.category}</p>
                   <h3>{project.name}</h3>
                   <p className="project-description">{project.description}</p>
                 </div>
 
                 {activeMedia && (
-                  <div className={`project-image${activeMedia.fit === 'contain' ? ' project-image-contain' : ''}`}>
+                  <div className={`project-image project-reveal-layer project-reveal-media${activeMedia.fit === 'contain' ? ' project-image-contain' : ''}`}>
                     <div className={`project-media-stage project-media-stage-${mediaPhase[project.id] ?? 'idle'}`}>
                       {activeMedia.type === 'video' ? (
                         <video
@@ -237,7 +264,6 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
                           autoPlay={!reducedEffects}
                           loop={!activeMedia.loopUntil}
                           muted
-                          defaultMuted
                           playsInline
                           controls
                           preload={reducedEffects ? 'none' : 'metadata'}
@@ -255,28 +281,34 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
                         />
                       )}
                     </div>
+                    {project.media.length > 1 && (
+                      <>
+                        <button
+                          type="button"
+                          className="project-gallery-arrow project-gallery-arrow-previous"
+                          aria-label={`${content.previousMedia}: ${project.name}`}
+                          onClick={() => stepThroughMedia(project, -1)}
+                        >
+                          ←
+                        </button>
+                        <button
+                          type="button"
+                          className="project-gallery-arrow project-gallery-arrow-next"
+                          aria-label={`${content.nextMedia}: ${project.name}`}
+                          onClick={() => stepThroughMedia(project, 1)}
+                        >
+                          →
+                        </button>
+                        <div className={`project-gallery-status project-gallery-status-${activeMedia.type}`} aria-live="polite">
+                          <span>{activeMedia.label}</span>
+                          <span>{(selectedMedia[project.id] ?? 0) + 1} / {project.media.length}</span>
+                        </div>
+                      </>
+                    )}
                   </div>
                 )}
 
-                {project.media && project.media.length > 1 && (
-                  <div className="project-media-tabs" aria-label={`Galería de ${project.name}`}>
-                    {project.media.map((mediaItem, index) => (
-                      <button
-                        key={`${project.id}-${mediaItem.label}`}
-                        type="button"
-                        className={`project-media-tab${selectedMedia[project.id] === index ? ' is-active' : ''}`}
-                        onClick={() => handleMediaSelection(project.id, index)}
-                      >
-                        {mediaItem.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                <div className="project-content">
-                  {project.ownership && (
-                    <p className="project-ownership">{project.ownership}</p>
-                  )}
+                <div className="project-content project-reveal-layer project-reveal-content">
                   {project.backendHighlights && (
                     <div className="project-backend-highlights" aria-label="Backend highlights">
                       {project.backendHighlights.map((highlight) => (
@@ -286,17 +318,20 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
                       ))}
                     </div>
                   )}
-                  <p className="project-long-description">{project.longDescription}</p>
-                  {project.highlights && (
-                    <ul className="project-highlights">
-                      {project.highlights.map((highlight) => (
-                        <li key={highlight}>{highlight}</li>
-                      ))}
-                    </ul>
-                  )}
-                  {project.actions && (
-                    <div className="project-actions">
-                      {project.actions.map((action) => (
+
+                  <div className="project-actions project-summary-actions">
+                    <button
+                      type="button"
+                      className="project-details-toggle"
+                      aria-expanded={isExpanded}
+                      aria-controls={detailsId}
+                      onClick={() => toggleProjectDetails(project.id)}
+                    >
+                      {isExpanded ? content.hideDetails : content.showDetails}
+                      <span aria-hidden="true">⌄</span>
+                    </button>
+                    {project.actions &&
+                      project.actions.map((action) => (
                         <a
                           key={action.href}
                           className={`project-link${action.emphasis === 'primary' ? ' project-link-primary' : ''}`}
@@ -307,28 +342,50 @@ export default function Projects({ reducedEffects = false, reducedMotion = false
                           {action.label}
                         </a>
                       ))}
+                  </div>
+
+                  <div
+                    id={detailsId}
+                    className={`project-details-panel${isExpanded ? ' is-expanded' : ''}`}
+                    aria-hidden={!isExpanded}
+                  >
+                    <div className="project-details-inner">
+                      {project.ownership && (
+                        <p className="project-ownership">{project.ownership}</p>
+                      )}
+                      <p className="project-long-description">{project.longDescription}</p>
+                      {project.highlights && (
+                        <ul className="project-highlights">
+                          {project.highlights.map((highlight) => (
+                            <li key={highlight}>{highlight}</li>
+                          ))}
+                        </ul>
+                      )}
+                      <div className="project-tech-section">
+                        <p className="project-tech-title">{content.stackLabel}</p>
+                        <div className="project-tech-list">
+                          {project.tech.map((tech) => (
+                            <span key={tech} className="project-tech-item">
+                              {getTechIcon(tech) ? (
+                                <img
+                                  className="tech-icon"
+                                  src={getTechIcon(tech)}
+                                  alt=""
+                                  loading="lazy"
+                                  decoding="async"
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <span className="tech-icon tech-icon-fallback" aria-hidden="true">
+                                  {tech.slice(0, 2).toUpperCase()}
+                                </span>
+                              )}
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                  )}
-                  <div className="tech-stack">
-                    {project.tech.map((tech) => (
-                      <span key={tech} className="tech-tag">
-                        {getTechIcon(tech) ? (
-                          <img
-                            className="tech-icon"
-                            src={getTechIcon(tech)}
-                            alt=""
-                            loading="lazy"
-                            decoding="async"
-                            aria-hidden="true"
-                          />
-                        ) : (
-                          <span className="tech-icon tech-icon-fallback" aria-hidden="true">
-                            {tech.slice(0, 2).toUpperCase()}
-                          </span>
-                        )}
-                        {tech}
-                      </span>
-                    ))}
                   </div>
                 </div>
               </article>
