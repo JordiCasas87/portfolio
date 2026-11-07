@@ -92,7 +92,7 @@ export default function About({ content }) {
                   <a
                     className="about-cv-link btn btn-secondary scroll-reveal"
                     style={{ '--reveal-order': 4 }}
-                    href={publicAsset('/cv/JordiCasas_CV20262.pdf')}
+                    href={publicAsset('/cv/JordiCasasCV2026NOV.pdf')}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
